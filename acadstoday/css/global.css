@@ -1,0 +1,27 @@
+/* this is the global css file 
+ * this contains the css code which can/will be added in all files */
+
+
+/* currently created for AcadsToday heading in header 
+ * this makes a link's color black and no underline in all four cases
+ * which are hovering, visited, normal unvisited link, and currently selected link*/
+a:hover.no-underline, a:visited.no-underline, a:link.no-underline, a:active.no-underline {
+	text-decoration:none;
+	color:#000000;
+}
+
+
+html, body {
+height: 100%;
+}
+
+.wrapper {
+min-height: 100%;
+height: auto !important;
+height: 100%;
+margin: 0 auto -4em;
+}
+
+.footer, .push {
+height: 4em;
+}
