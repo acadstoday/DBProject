@@ -4,9 +4,8 @@ require('err.php');
 
 $timestamp = time()+19800;
 
-if(isset($_POST['login']))
+if(isset($_POST['ldap_id']))
 {	
-	echo "hi";
 	function clean($str)
 	{
 		$str = @trim($str);
@@ -26,15 +25,17 @@ if(isset($_POST['login']))
 	}
 	err_chk('login_page.php');
     $lc = @ldap_connect("ldap.iitb.ac.in");
-    if(!$lc) {
+    if(!$lc) { 
         $err[] = "Connection error";
 		$errflag = true;
     }
+   
     $bind = @ldap_bind($lc);
     if(!$bind) {
         $err[] = "Bind error";
 		$errflag = true;
     }
+    
     $base_dn = "ou=People,dc=iitb,dc=ac,dc=in";
     $filter = "uid=".$login;
     $getThese = array("employeenumber","employeetype");
@@ -49,6 +50,7 @@ if(isset($_POST['login']))
 		$errflag = true;
 	}
 	err_chk('login_page.php');
+	
 	$et=$info[0]["employeetype"][0];
 /*	if($et!="ug" || $et!="dd" || $et!="pg" || $et!="rs")
 	{
@@ -59,6 +61,7 @@ if(isset($_POST['login']))
 	$user_dn = $info[0]["dn"];
 	$bind=@ldap_bind($lc,$user_dn,$password);
 	if(!$bind) {
+        	
         	$err[]= "Wrong Username or password";
 			$errflag = true;
 			err_chk('login_page.php');
@@ -81,12 +84,11 @@ if(isset($_POST['login']))
 	$_SESSION['roll'] = $roll;
 	
 	//enter a new user in the user table
+	//username same as ldap id, new password and date of joining
 	//forward user to his edit profile page
+
 }
-else {
-	//display wrong ldap id
-	header("location: login_page.php");
-}
+
 //echo "Login ID : ".$_SESSION['uid']."<br />Roll No : ".$_SESSION['roll'];
 
 ?>
