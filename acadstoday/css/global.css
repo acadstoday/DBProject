@@ -11,17 +11,44 @@ a:hover.no-underline, a:visited.no-underline, a:link.no-underline, a:active.no-u
 }
 
 
+
+/* css to stretch the page so that footer is always at the bottom */
 html, body {
-height: 100%;
+	height: 100%;
 }
 
 .wrapper {
-min-height: 100%;
-height: auto !important;
-height: 100%;
-margin: 0 auto -4em;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -4em;
 }
 
 .footer, .push {
-height: 4em;
+	height: 4em;
+}
+
+
+/* for footer links */
+/* Footer Links */
+#footer ul {
+	margin: 0.25em 0;
+	padding: 0 1em;
+	list-style: none;
+}
+#footer li {
+	display: inline;
+	margin: 0;
+	padding: 0 0.2em 0 0.5em;
+	border-left: 1px solid;
+}
+#footer .first {
+	padding-left: 0;
+	border: 0;
+}
+#copyright {
+	float: left;
+}
+#footerLinks {
+	float: right;
 }
