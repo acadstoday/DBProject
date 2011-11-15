@@ -77,3 +77,9 @@ html, body {
 .searchform {
 	padding-left: 1em;
 }
+
+
+/* main forms on add pages (add project, add course etc.) */
+.addForm {
+	padding-left: 2em;
+}

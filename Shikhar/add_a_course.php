@@ -1,8 +1,7 @@
-
 <html>
-<title>
-Add a Course
-</title>
+	<head>
+		<title>Add a Course</title>
+	</head>
 <body>
 <h2> 
 Project Registration
