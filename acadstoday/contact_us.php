@@ -10,7 +10,7 @@
 			<!-- header code -->
 			<?php include("header-body.php"); ?>
 			
-			<div class="addForm">
+			<div class="leftpad">
 				<h2>Contact Us</h2>
 				<p>Contact Form to be added soon ....</p>
 			</div>

@@ -35,7 +35,8 @@
 						$result = mysql_query("SELECT * FROM user where user_id = " . $user_id) or die(mysql_error());  
 						$row = mysql_fetch_array( $result );
 						echo "Name: ".$row['user_name']."<br />";
-						echo "Gender: ".$row['gender']; //show 'about me' here or other useful links
+						echo "Gender: ".$row['gender']."<br />";
+						echo "Department: ".$row['dept_name']; //show 'about me' here or other useful links
 					?>
 				</div>
 			</div>
@@ -43,6 +44,7 @@
 			
 			<!-- central area starts which is showing name and details of user and all notifications like FB wall -->
 			<div id="center">
+				<h3>Wall</h3>
 				<div class="tabber">
 					<div class="tabbertab" title="Courses">
 						<p>Tab 1 content.</p>
@@ -64,6 +66,7 @@
 					<input class="searchbutton" type="button" value="Go" />
 				</form>
 				
+				<h3>Lists</h3>
 				<div class="tabber">
 					<div class="tabbertab" title="List 1">
 						<p>Tab 1 content.</p>

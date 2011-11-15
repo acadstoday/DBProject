@@ -9,7 +9,7 @@
 			<?php include("db-connect.php"); ?>
 			<!-- header code -->
 			<?php include("header-body.php"); ?>
-			<div class="addForm">
+			<div class="leftpad">
 				<h2>Project Registration</h2>
 				<?php				   
 						$help2 = "SELECT * FROM instructor";

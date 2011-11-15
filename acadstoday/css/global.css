@@ -80,6 +80,6 @@ html, body {
 
 
 /* main forms on add pages (add project, add course etc.) */
-.addForm {
+.leftPad {
 	padding-left: 2em;
 }

@@ -10,7 +10,7 @@
 			<!-- header code -->
 			<?php include("header-body.php"); ?>
 			
-			<div class="addForm">
+			<div class="leftpad">
 				<h2>About Us</h2>
 				<p>This is a Project for course CS-387 i.e. <i>Database and Information Systems Lab</i>.</p>
 				<p>Project Guide is our course instructor Prof. Sudarshan.</p>

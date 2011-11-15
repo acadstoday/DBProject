@@ -9,7 +9,7 @@
 			<?php include("db-connect.php"); ?>
 			<!-- header code -->
 			<?php include("header-body.php"); ?>
-			<div class="addForm">
+			<div class="leftpad">
 				<h2>Course Registration</h2>
 
 				<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">

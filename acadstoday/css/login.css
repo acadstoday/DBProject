@@ -1,0 +1,39 @@
+body{
+	height:85%;
+}
+.wrapper{
+	/*width:80%;
+	margin-left:auto;
+	margin-right:auto;*/
+	padding-top:100px;
+	background-color:#FFFFFF;
+}
+#content{
+	float:left;
+}
+#forms{
+	width:420px;
+	float:right;
+	height:190px;
+	background-color:#BDBDBD;
+	padding:15px;
+	border-style:solid;
+	border-width:1px;
+	border-color:#707070;
+}
+#form1{
+	width:90%;
+	margin-left:auto;
+	margin-right:auto;
+}
+#form2{
+	width:90%;
+	margin-left:auto;
+	margin-right:auto;
+}
+td{
+	width:200px;
+}
+.desc{
+	color:#707070;
+}
