@@ -5,16 +5,17 @@
 /* currently created for AcadsToday heading in header 
  * this makes a link's color black and no underline in all four cases
  * which are hovering, visited, normal unvisited link, and currently selected link*/
-a:hover.no-underline, a:visited.no-underline, a:link.no-underline, a:active.no-underline {
+/*a:hover.no-underline, a:visited.no-underline, a:link.no-underline, a:active.no-underline {
 	text-decoration:none;
 	color:#000000;
-}
+}*/
 
 
 
 /* css to stretch the page so that footer is always at the bottom */
 html, body {
 	height: 100%;
+	width: 80%;
 }
 
 .wrapper {
@@ -31,9 +32,12 @@ html, body {
 
 /* for footer links */
 /* Footer Links */
+#footer {
+	border-top: 1px solid;
+}
 #footer ul {
 	margin: 0.25em 0;
-	padding: 0 1em;
+	padding: 0.6em 0;
 	list-style: none;
 }
 #footer li {
@@ -51,4 +55,25 @@ html, body {
 }
 #footerLinks {
 	float: right;
+}
+
+
+
+/* panels */
+#leftpanel {
+	float: left;
+	width: 200px;
+}
+#rightpanel {
+	padding-top: 0.5em;
+	float: right;
+	width: 300px;
+}
+#center {
+	width: 680px;
+	float: left;
+}
+
+.searchform {
+	padding-left: 1em;
 }

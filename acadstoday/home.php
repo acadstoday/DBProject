@@ -65,13 +65,13 @@
 				</form>
 				
 				<div class="tabber">
-					<div class="tabbertab" title="Courses">
+					<div class="tabbertab" title="List 1">
 						<p>Tab 1 content.</p>
 					</div>
-					<div class="tabbertab" title="Instructors">
+					<div class="tabbertab" title="List 2">
 						<p>Tab 2 content.</p>
 					</div>
-					<div class="tabbertab" title="Users">
+					<div class="tabbertab" title="List 3">
 						<p>Tab 3 content.</p>
 					</div>
 				</div>
