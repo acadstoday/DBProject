@@ -11,6 +11,10 @@ body{
 #content{
 	float:left;
 }
+#formNerror{
+	width:420px;
+	float:right;
+}
 #forms{
 	width:420px;
 	float:right;
@@ -36,4 +40,8 @@ td{
 }
 .desc{
 	color:#707070;
+}
+
+#error{
+	float: left
 }

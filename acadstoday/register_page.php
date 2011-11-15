@@ -23,7 +23,7 @@ if(isset($_POST['ldap_id']))
 		$err[] = 'Password missing';
 		$errflag = true;
 	}
-	err_chk('login_page.php');
+	err_chk('login.php');
     $lc = @ldap_connect("ldap.iitb.ac.in");
     if(!$lc) { 
         $err[] = "Connection error";
@@ -49,7 +49,7 @@ if(isset($_POST['ldap_id']))
 		$err[]= "Unknown user - please fill details again";
 		$errflag = true;
 	}
-	err_chk('login_page.php');
+	err_chk('login.php');
 	
 	$et=$info[0]["employeetype"][0];
 /*	if($et!="ug" || $et!="dd" || $et!="pg" || $et!="rs")
@@ -64,7 +64,7 @@ if(isset($_POST['ldap_id']))
         	
         	$err[]= "Wrong Username or password";
 			$errflag = true;
-			err_chk('login_page.php');
+			err_chk('login.php');
     	}
 	$roll=$info[0]["employeenumber"][0];
 
