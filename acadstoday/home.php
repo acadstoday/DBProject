@@ -31,12 +31,38 @@
 				<div id="info">
 					<?php
 						//$user_id = $_SESSION['uid'];   //use this actually
-						$user_id = '45678';
-						$result = mysql_query("SELECT * FROM user where user_id = " . $user_id) or die(mysql_error());  
-						$row = mysql_fetch_array( $result );
-						echo "Name: ".$row['user_name']."<br />";
+						$user_id = '55739';
+						$stmt = mysqli_stmt_init($con);
+						mysqli_stmt_prepare($stmt, "SELECT user_name, gender, dept_name FROM user where user_id = ?") or die(mysqli_error());
+						mysqli_stmt_bind_param($stmt, 's', $user_id);
+						mysqli_stmt_execute($stmt);
+						/* bind result variables */
+						mysqli_stmt_bind_result($stmt, $name, $gender, $dept);
+						/* fetch value */
+						while ( mysqli_stmt_fetch($stmt) ) {
+							echo "Name: " . $name . "<br />";
+							echo "Gender: " . $gender . "<br />";
+							echo "Department: " . $dept . "<br />";
+						}
+
+						//printf("%s's id is %s\n", $name, $user_id);
+						
+						
+						/*
+						$result123 = mysqli_stmt_get_result($stmt);
+						while ($row = mysqli_fetch_array($result, MYSQLI_NUM))
+						{
+							echo "Name: ".$row['user_name']."<br />";
+							echo "Gender: ".$row['gender']."<br />";
+							echo "Department: ".$row['dept_name'];
+						}
+						*/
+						  
+						//$row = mysql_fetch_array( $result );
+						/*echo "Name: ".$row['user_name']."<br />";
 						echo "Gender: ".$row['gender']."<br />";
-						echo "Department: ".$row['dept_name']; //show 'about me' here or other useful links
+						echo "Department: ".$row['dept_name']; //show 'about me' here or other useful links*/
+						mysqli_stmt_close($stmt);
 					?>
 				</div>
 			</div>

@@ -20,5 +20,5 @@
 
 	//sets encoding to utf8
 	//mysql_query("SET NAMES utf8");
-	mysqli_query("SET NAMES utf8");
+	mysqli_query($con, "SET NAMES utf8");
 ?>
