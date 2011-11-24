@@ -5,7 +5,9 @@
 	$pwd = "ashish"; //database password
 	$db_name = "acadstoday"; //database name
 
-	$link = mysql_connect($host, $user, $pwd);
+	//$link = mysql_connect($host, $user, $pwd);
+	$con = mysqli_connect($host, $user, $pwd, $db_name);
 	
-	mysql_close($link);
+	//mysql_close($link);
+	mysqli_close($con);
 ?>

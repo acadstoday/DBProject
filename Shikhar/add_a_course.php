@@ -1,12 +1,10 @@
 <html>
-	<head>
-		<title>Add a Course</title>
-	</head>
+<title>Add a Course</title>
 <body>
 <h2> 
 Project Registration
 </h2>
-
+ration
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 Search: <input type="text" size="12" maxlength="12" name="course" value=""/><br>
 <input type="checkbox" name="option1" value="course_id" /> Search by Course ID<br>
