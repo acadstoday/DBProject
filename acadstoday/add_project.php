@@ -11,56 +11,57 @@
 			<?php include("header-body.php"); ?>
 			<div class="leftpad">
 				<h2>Project Registration</h2>
-				<?php				   
-						$help2 = "SELECT * FROM instructor";
-						$help3 = "SELECT * FROM course";
-						//$query = sprintf($help);
-						$result2 = mysql_query($help2);
-						$result3 = mysql_query($help3);
 
-						if (!$result2 || !$result3) {
-							$message  = 'Invalid query: ' . mysql_error() . "\n";
-							$message .= 'Whole query: ' . $query;
-							die($message);
-						}
-						else{
-
-							echo "<form>";
-							echo "<table>";
-							echo "<tr><td>Project:</td>";
-							echo "<td><input type=\"text\" name=\"project\"/></td></tr>";
-							//echo "</br>";
-							echo "<tr><td>Instructor:</td>";
-							echo "<td><select name=\"instructor\">";
-							while ($row = mysql_fetch_assoc($result2)) {
-								echo "<option value=\"".$row['inst_id']."\">";
-								echo $row['inst_name'];
-								echo "</option>\n";
-							}
-							echo "</select></td></tr>";
-							//echo "</br>";
-							echo "<tr><td>Course:</td>";
-							echo "<td><select name=\"course\">";
-							while ($row = mysql_fetch_assoc($result3)) {
-								echo "<option value=\"".$row['course_id']."\">";
-								echo $row['course_name'];
-								echo "</option>\n";
-							}
-							echo "</select></td></tr>";
-							//echo "</br>";
-							echo "<tr><td>Project Desciption:</td>";
-							echo "<td><textarea name=\"project_desciption\"></textarea></td></tr>";
-							echo "<tr><td>Start Date:</td>";
-							echo "<td><input type=\"text\" name=\"start_date\" value=\"ddmmyyyy\"/></td></tr>";
-							echo "<tr><td>End Date:</td>";
-							echo "<td><input type=\"text\" name=\"end_date\" value=\"ddmmyyyy\"/></td></tr>";
-							echo "</table>";
-							echo "<input type=\"submit\" name=\"submit\" value=\"Register\" />";
-							echo "</form>";
-						mysql_free_result($result2);
-						mysql_free_result($result3);
-						}
+				<form>
+				<table>
+				<tr><td>Project:</td>
+				<td><input type="text" name="project"/></td></tr>
+				</br>
+				<tr><td>Instructor:</td>
+				<td><select name="instructor">
+				
+				<?php
+					$stmt = mysqli_prepare($con,"SELECT * FROM instructor");
+					mysqli_stmt_execute($stmt);
+					$result = mysqli_stmt_get_result($stmt);
+					while (mysqli_stmt_fetch($result)) {
+						echo "<option value=\"".$inst_id."\">";
+						echo $inst_name;
+						echo "</option>\n";
+					}
+					
 				?>
+				
+				</select></td></tr>
+				<tr><td>Course:</td>
+				<td><select name="course">
+					
+				<?php
+					
+					$stmt = mysqli_prepare($con,"SELECT * FROM instructor");
+					mysqli_stmt_execute($stmt);
+					$result = mysqli_stmt_get_result($stmt);
+					while (mysqli_stmt_fetch($result)) {
+						echo "<option value=\"".$course_id."\">";
+						echo $course_name;
+						echo "</option>\n";
+					}
+					
+					mysqli_stmt_close($stmt);
+				?>
+				
+				</select></td></tr>
+				<tr><td>Project Desciption:</td>
+				<td><textarea name="project_desciption"></textarea></td></tr>
+				<tr><td>Start Date:</td>
+				<td><input type="text" name="start_date" value="ddmmyyyy"/></td></tr>
+				<tr><td>End Date:</td>
+				<td><input type="text" name="end_date" value="ddmmyyyy"/></td></tr>
+				</table>
+				<input type="submit" name="submit" value="Register" />
+				</form>
+				
+				WRITE CODE TO REGISTER HERE
 			</div>
 		</div>
 			<!-- footer code -->

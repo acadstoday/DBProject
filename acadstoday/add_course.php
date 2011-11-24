@@ -20,19 +20,27 @@
 				</form>
 
 				<?php
+				
+				$stmt = $con->stmt_init();
+					
+				if (isset($_REQUEST['course'])){
+					
 					if ($_REQUEST['course'] == null){
 						echo "<i>Enter something to search</i>";
 					}
 					if(isset($_REQUEST['option1']) && isset($_REQUEST['option2']) && $_REQUEST['option1'] == "course_id" && $_REQUEST['option2'] == "course_name"){
-						$help = "SELECT * FROM course WHERE course_name like'%".$_REQUEST['course']."%' or course_id like '%".$_REQUEST['course']."%'";
+						$stmt = mysqli_prepare($con,"SELECT * FROM course WHERE course_name like'%?%' or course_id like '%?%'";
+						 mysqli_stmt_bind_param($stmt,"ss", $_REQUEST['course'],$_REQUEST['course']);
 					}
 
 					elseif(isset($_REQUEST['option1']) && $_REQUEST['option1'] == "course_id"){
-						$help = "SELECT * FROM course WHERE lower(course_id) like '%".$_REQUEST['course']."%'";
+						$stmt = mysqli_prepare($con,"SELECT * FROM course WHERE lower(course_id) like '%?%'");
+						mysqli_stmt_bind_param($stmt,"s", $_REQUEST['course']);
 					}
 
 					elseif(isset($_REQUEST['option2']) && $_REQUEST['option2'] == "course_name"){
-						$help = "SELECT * FROM course WHERE lower(course_name) like '%".$_REQUEST['course']."%'";
+						$stmt = mysqli_prepare($con,"SELECT * FROM course WHERE lower(course_name) like '%?%'");
+						mysqli_stmt_bind_param($stmt,"s", $_REQUEST['course']);
 					}
 					else{
 						$help = "";
@@ -40,36 +48,35 @@
 						echo "<i>Select whether to search by ID or name<i>";
 						}
 					}
-					//$query = sprintf($help);
-					if ($_REQUEST['course'] != "" && $help != ""){
-						$result = mysql_query($help);
 
-						if (!$result) {
-							$message  = 'Invalid query: ' . mysql_error() . "\n";
-							$message .= 'Whole query: ' . $query;
-							die($message);
-						}
-						if(mysql_num_rows($result) == 0){
+					if ($_REQUEST['course'] != "" && $help != ""){
+						
+						mysqli_stmt_execute($stmt);
+						$result = mysqli_stmt_get_result($stmt);
+						
+						if(mysqli_num_rows($result) == 0){
 							echo "No Courses found";
 						}
 					else{
 						echo "<hr>";
 						echo "<form>";
-						while ($row = mysql_fetch_assoc($result)) {
-							echo "<input type=\"radio\" name=\"group1\" value=\"".$row['course_id']." \">";
-							echo $row['course_id'];
+		
+						while (mysqli_stmt_fetch($result)) {
+							echo "<input type=\"radio\" name=\"group1\" value=\"".$course_id." \">";
+							echo $course_id;
 							echo "&nbsp&nbsp&nbsp";
-							echo $row['course_name'];
+							echo $course_name;
 							echo "&nbsp&nbsp&nbsp";
-							echo $row['dept_name'];
+							echo $dept_name;
 							echo "</br>";
 						}
 						echo "</br>";
 						echo "<input type=\"submit\" name=\"submit\" value=\"Register\" />";
 						echo "</form>";
 					}
-					mysql_free_result($result);
+					mysqli_stmt_close($stmt);
 					}
+				}
 
 
 				?>
