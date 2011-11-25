@@ -12,7 +12,7 @@
 			<div class="leftpad">
 				<h2>Course Registration</h2>
 
-				<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+				<form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>" >
 					Search: <input type="text" size="12" maxlength="12" name="course" value=""/><br>
 					<input type="checkbox" name="option1" value="course_id" /> Search by Course ID<br>
 					<input type="checkbox" name="option2" value="course_name" /> Search by Course Name<br>
@@ -21,7 +21,8 @@
 
 				<?php
 				
-				$stmt = $con->stmt_init();
+				$stmt = mysqli_stmt_init($con);
+				$help = 'help';
 					
 				if (isset($_REQUEST['course'])){
 					
@@ -29,18 +30,18 @@
 						echo "<i>Enter something to search</i>";
 					}
 					if(isset($_REQUEST['option1']) && isset($_REQUEST['option2']) && $_REQUEST['option1'] == "course_id" && $_REQUEST['option2'] == "course_name"){
-						$stmt = mysqli_prepare($con,"SELECT * FROM course WHERE course_name like'%?%' or course_id like '%?%'";
-						 mysqli_stmt_bind_param($stmt,"ss", $_REQUEST['course'],$_REQUEST['course']);
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE course_name like '%?%' OR course_id like '%?%'") or die(mysqli_error());
+						mysqli_stmt_bind_param($stmt,'ss', $_REQUEST['course'],$_REQUEST['course']);
 					}
 
 					elseif(isset($_REQUEST['option1']) && $_REQUEST['option1'] == "course_id"){
-						$stmt = mysqli_prepare($con,"SELECT * FROM course WHERE lower(course_id) like '%?%'");
-						mysqli_stmt_bind_param($stmt,"s", $_REQUEST['course']);
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE lower(course_id) like '%?%'") or die(mysqli_error());
+						mysqli_stmt_bind_param($stmt,'s', $_REQUEST['course']);
 					}
 
 					elseif(isset($_REQUEST['option2']) && $_REQUEST['option2'] == "course_name"){
-						$stmt = mysqli_prepare($con,"SELECT * FROM course WHERE lower(course_name) like '%?%'");
-						mysqli_stmt_bind_param($stmt,"s", $_REQUEST['course']);
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE lower(course_name) like '%?%'") or die(mysqli_error());
+						mysqli_stmt_bind_param($stmt,'s', $_REQUEST['course']);
 					}
 					else{
 						$help = "";
@@ -48,37 +49,34 @@
 						echo "<i>Select whether to search by ID or name<i>";
 						}
 					}
-
+					
 					if ($_REQUEST['course'] != "" && $help != ""){
-						
 						mysqli_stmt_execute($stmt);
-						$result = mysqli_stmt_get_result($stmt);
+						//mysqli_stmt_store_result($stmt);
+						mysqli_stmt_bind_result($stmt, $course_id, $course_name, $dept_name);
 						
-						if(mysqli_num_rows($result) == 0){
+						echo "<hr />";
+						if(mysqli_stmt_num_rows($stmt) == 0){
 							echo "No Courses found";
 						}
-					else{
-						echo "<hr>";
-						echo "<form>";
-		
-						while (mysqli_stmt_fetch($result)) {
-							echo "<input type=\"radio\" name=\"group1\" value=\"".$course_id." \">";
-							echo $course_id;
-							echo "&nbsp&nbsp&nbsp";
-							echo $course_name;
-							echo "&nbsp&nbsp&nbsp";
-							echo $dept_name;
+						else{
+							echo "<form method='POST' action='' >";
+							while (mysqli_stmt_fetch($stmt)) {
+								echo "<input type='radio' name='group1' value='" . $course_id . "' >";
+								echo $course_id;
+								echo "&nbsp&nbsp&nbsp";
+								echo $course_name;
+								echo "&nbsp&nbsp&nbsp";
+								echo $dept_name;
+								echo "</br>";
+							}
 							echo "</br>";
+							echo "<input type='submit' name='submit' value='Register' />";
+							echo "</form>";
 						}
-						echo "</br>";
-						echo "<input type=\"submit\" name=\"submit\" value=\"Register\" />";
-						echo "</form>";
 					}
 					mysqli_stmt_close($stmt);
-					}
 				}
-
-
 				?>
 			</div>
 		</div>

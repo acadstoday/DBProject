@@ -14,7 +14,7 @@
 								<a href="add_project.php">Add Project</a><br/>
 								<a href="#">Account Settings</a><br/>
                             </fieldset>
-                            <input type="button" id="login" value="Log Out" />
+                            <input type="button" id="login" value="Log Out" onclick="location.href='logout.php'" />
                         </fieldset>
                     </form>
                 </div>

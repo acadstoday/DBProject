@@ -11,7 +11,7 @@
 			<li class="first"><a href="home.php">Home</a></li>
 			<li><a href="about_us.php">About Us</a></li>
 			<li><a href="contact_us.php">Contact Us</a></li>
-			<li><a href="">Privacy Policy</a></li>
+			<li><a href="privacy_policy.php">Privacy Policy</a></li>
 		</ul>
 	</div>
 </div>
