@@ -1,4 +1,10 @@
 <div class ="footer" id="footer">
+	<div>
+		<p></p>
+		<p></p>
+		<p></p>
+		<p></p>
+	</div>
 	<div id="copyright" style="float:left;">
 		<!-- automatically inserts the current year after copyright symbol -->
 		<p> &#169; <?php echo date('Y'); ?>, <a href="login.php">AcadsToday</a> </p>

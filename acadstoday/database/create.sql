@@ -167,7 +167,7 @@ CREATE TABLE Upload
 	upload_id VARCHAR(15),
 	format VARCHAR(10),
 	type VARCHAR(15),
-	date TIMESTAMP(10),
+	date VARCHAR(10),
 	tot_downloads INT(10),
 	link LONGTEXT NOT NULL,
 	PRIMARY KEY (upload_id),
@@ -236,7 +236,7 @@ CREATE TABLE Instr_Comments
 	inst_id CHAR(5),
 	user_id VARCHAR(15),
 	comment LONGTEXT NOT NULL,
-	date TIMESTAMP(10),
+	date VARCHAR(10),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
 		ON DELETE CASCADE,
 	FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id)
@@ -248,7 +248,7 @@ CREATE TABLE Course_Comments
 	course_id VARCHAR(10),
 	user_id VARCHAR(15),
 	comment LONGTEXT NOT NULL,
-	date TIMESTAMP(10),
+	date VARCHAR(10),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
 		ON DELETE CASCADE,
 	FOREIGN KEY (course_id) REFERENCES Course(course_id)
@@ -260,7 +260,7 @@ CREATE TABLE Upload_Comments
 	upload_id VARCHAR(15),
 	user_id VARCHAR(15),
 	comment LONGTEXT NOT NULL,
-	date TIMESTAMP(10),
+	date VARCHAR(10),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
 		ON DELETE CASCADE,
 	FOREIGN KEY (upload_id) REFERENCES Upload(upload_id)

@@ -20,13 +20,12 @@ html, body {
 
 .wrapper {
 	min-height: 100%;
-	height: auto !important;
-	height: 100%;
+	height: auto;
 	margin: 0 auto -4em;
 }
 
 .footer, .push {
-	height: 4em;
+	height: 2em;
 }
 
 
@@ -34,6 +33,7 @@ html, body {
 /* Footer Links */
 #footer {
 	border-top: 1px solid;
+	float: bottom;
 }
 #footer ul {
 	margin: 0.25em 0;
@@ -82,4 +82,41 @@ html, body {
 /* main forms on add pages (add project, add course etc.) */
 .leftPad {
 	padding-left: 2em;
+}
+
+/*for lists of courses, instructors, users etc. */
+#list th
+{
+	text-align:center;
+	background-color:#0B2647;
+	padding:15px;
+	color:#FFFFFF;
+}
+
+#list td
+{
+	background-color:#b0c4de;
+	text-align:center;
+	padding:15px;
+}
+
+
+/*for left table in home of user */
+#leftlist a
+{
+	text-decoration:none;
+}
+
+#leftlist th
+{
+	text-align:left;
+	background-color:#b0c4de;
+	padding:15px;
+}
+
+#leftlist td
+{
+	text-align:left;
+	padding:2px;
+	padding-left:10px;
 }

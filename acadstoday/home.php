@@ -5,7 +5,7 @@
 ?>
 <html>
 	<head>
-		<title>AcadsToday Home</title>
+		<title>Home</title>
 		<?php include("header-head.php"); ?>
 		<link rel="stylesheet" type="text/css" href="css/home.css" />
 		
@@ -27,8 +27,8 @@
 			<!-- left panel starts which consist DP and other links-->
 			<div id="leftpanel">
 				<!-- retrieve the link of profile pic of user and then show that pic below -->
-				<div id="pic"></div>
-				<div id="info">
+				<table border="0" width="95%" id="leftlist">
+				<tr id="pic"><td><img src="" alt="profile pic"/></td></tr>
 					<?php
 						//$user_id = $_SESSION['uid'];   //use this actually
 						$user_id = '44553';
@@ -36,22 +36,24 @@
 						mysqli_stmt_prepare($stmt, "SELECT user_name, gender, dept_name FROM User1 WHERE user_id = ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt, 's', $user_id);
 						mysqli_stmt_execute($stmt);
-						/* bind result variables */
-						mysqli_stmt_bind_result($stmt, $name, $gender, $dept);
-						/*if(mysqli_stmt_num_rows($stmt) == 0){
-							echo "No Detail of you to show!";
+						mysqli_stmt_store_result($stmt);
+						if(mysqli_stmt_num_rows($stmt) == 0){
+							echo "<tr>No Detail of you to show!</tr>";
 						}
 						else{
+							/* bind result variables */
+							mysqli_stmt_bind_result($stmt, $name, $gender, $dept);
 							/* fetch value */
 							while ( mysqli_stmt_fetch($stmt) ) {
-								echo "Name: " . $name . "<br />";
-								echo "Gender: " . $gender . "<br />";
-								echo "Department: " . $dept . "<br />";
+								echo "<tr><td>Name: " . $name . "</td></tr>";
+								echo "<tr><td>Gender: " . $gender . "</td></tr>";
+								echo "<tr><td>Department: " . $dept . "</td></tr>";
 							}
-						//}
+						}
 						mysqli_stmt_close($stmt);
 					?>
-				</div>
+				<tr><th><a href="news.php">News</a></th></tr>
+				</table>
 			</div>
 			<!-- left panel ends-->
 			
@@ -92,6 +94,7 @@
 							mysqli_stmt_store_result($stmt);
 							if(mysqli_stmt_num_rows($stmt) == '0'){
 								echo "You Don't follow any Users";
+								echo "Follow new users <a href='user_list.php'>Here</a>";
 							}
 							else{
 								/* bind result variables */
@@ -102,6 +105,7 @@
 									echo "<li>" . $name . "</li>";
 								}
 								echo "</ui>";
+								echo "Follow more users <a href='user_list.php'>Here</a>";
 							}
 							mysqli_stmt_close($stmt);
 						?>
@@ -117,6 +121,7 @@
 							mysqli_stmt_store_result($stmt);
 							if(mysqli_stmt_num_rows($stmt) == '0'){
 								echo "You Don't follow any Instructors";
+								echo "Follow new instructors <a href='instructor_list.php'>Here</a>";
 							}
 							else{
 								/* bind result variables */
@@ -127,6 +132,7 @@
 									echo "<li>" . $name . "</li>";
 								}
 								echo "</ui>";
+								echo "Follow more instructors <a href='instructor_list.php'>Here</a>";
 							}
 							mysqli_stmt_close($stmt);
 						?>
@@ -142,6 +148,7 @@
 							mysqli_stmt_store_result($stmt);
 							if(mysqli_stmt_num_rows($stmt) == '0'){
 								echo "You Don't follow any Courses";
+								echo "Follow new courses <a href='course_list.php'>Here</a>";
 							}
 							else{
 								/* bind result variables */
@@ -152,6 +159,7 @@
 									echo "<li>" . $name . "</li>";
 								}
 								echo "</ui>";
+								echo "Follow more courses <a href='course_list.php'>Here</a>";
 							}
 							mysqli_stmt_close($stmt);
 						?>

@@ -27,7 +27,7 @@ ul.tabbernav
  margin:0;
  padding: 3px 0;
  border-bottom: 1px solid #778;
- font: bold 12px Verdana, sans-serif;
+ /*font: bold 12px Verdana, sans-serif;*/
 }
 
 ul.tabbernav li

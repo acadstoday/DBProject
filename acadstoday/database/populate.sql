@@ -188,7 +188,7 @@ INSERT INTO Upload VALUES ('de159','doc','other','22122009','44','www.cse.iitb.a
 INSERT INTO Upload VALUES ('dy123','doc','assignment','16052010','60','www.cse.iitb.ac.in/~shikhar');
 INSERT INTO Upload VALUES ('gr555','pdf','ebook','30042011','33','www.cse.iitb.ac.in/~ashishtajane');
 INSERT INTO Upload VALUES ('gt131','jpg','other','26032008','72','www.cse.iitb.ac.in/~lucky');
-INSERT INTO Upload VALUES ('sr777','pdf','exam-paper','69','20102010','www.cse.iitb.ac.in/~ashishtajane');
+INSERT INTO Upload VALUES ('sr777','pdf','exam-paper','20102010','69','www.cse.iitb.ac.in/~ashishtajane');
 INSERT INTO Upload VALUES ('st220','ppt','other','30092010','84','www.cse.iitb.ac.in/~ashishtajane');
 INSERT INTO Upload VALUES ('xy136','pdf','assignment','19112011','103','www.cse.iitb.ac.in/~saurabhb');
 INSERT INTO Upload VALUES ('zz442','doc','exam-paper','12122008','157','www.cse.iitb.ac.in/~lucky');
