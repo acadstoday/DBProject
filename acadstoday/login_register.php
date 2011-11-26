@@ -38,7 +38,7 @@ if(isset($_POST['ldap_id']))
     
     $base_dn = "ou=People,dc=iitb,dc=ac,dc=in";
     $filter = "uid=".$login;
-    $getThese = array("employeenumber","employeetype");
+    $getThese = array("employeenumber","employeetype","cn"); //'cn' -user's full name ;  
     $result = ldap_search($lc,$base_dn,$filter,$getThese );
     $info = ldap_get_entries($lc,$result);
     if(!$result) {
@@ -67,7 +67,7 @@ if(isset($_POST['ldap_id']))
 			err_chk('login_page.php');
     	}
 	$roll=$info[0]["employeenumber"][0];
-
+	$user_name = $info[0]["cn"][0];
 	/*$usedids=fopen("datfiles/usedids.dat", 'r');
     while(!feof($usedids))
     {
@@ -80,12 +80,13 @@ if(isset($_POST['ldap_id']))
         }
     }*/
 
+	//these two session variables are always present [non null] when session active
 	$_SESSION['uid'] = $login;
-	$_SESSION['roll'] = $roll;
+	$_SESSION['user_name'] = $user_name;
 	
 	//enter a new user in the user table
-	//username same as ldap id, new password and date of joining
-	//forward user to his edit profile page
+	//user_id same as ldap id($login), user_name as $user_name, new password and date of joining ; rest all attributes are null for the time being
+	//forward user to his edit profile page with $user_name [method get]
 
 }
 
