@@ -33,17 +33,17 @@
 						$search_query = "%" . $_REQUEST['course'] . "%";
 					}
 					if(isset($_REQUEST['option1']) && isset($_REQUEST['option2']) && $_REQUEST['option1'] == "course_id" && $_REQUEST['option2'] == "course_name"){
-						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE course_name like ? OR course_id like ?") or die(mysqli_error());
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM Course WHERE course_name like ? OR course_id like ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'ss', $search_query, $search_query);
 					}
 
 					elseif(isset($_REQUEST['option1']) && $_REQUEST['option1'] == "course_id"){
-						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE lower(course_id) like ?") or die(mysqli_error());
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM Course WHERE lower(course_id) like ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'s', $search_query);
 					}
 
 					elseif(isset($_REQUEST['option2']) && $_REQUEST['option2'] == "course_name"){
-						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE lower(course_name) like ?") or die(mysqli_error());
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM Course WHERE lower(course_name) like ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'s', $search_query);
 					}
 					else{

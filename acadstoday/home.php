@@ -27,13 +27,13 @@
 			<!-- left panel starts which consist DP and other links-->
 			<div id="leftpanel">
 				<!-- retrieve the link of profile pic of user and then show that pic below -->
-				<div id="pic"><img /></div>
+				<div id="pic"></div>
 				<div id="info">
 					<?php
 						//$user_id = $_SESSION['uid'];   //use this actually
-						$user_id = '55739';
+						$user_id = '44553';
 						$stmt = mysqli_stmt_init($con);
-						mysqli_stmt_prepare($stmt, "SELECT user_name, gender, dept_name FROM user WHERE user_id = ?") or die(mysqli_error());
+						mysqli_stmt_prepare($stmt, "SELECT user_name, gender, dept_name FROM User1 WHERE user_id = ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt, 's', $user_id);
 						mysqli_stmt_execute($stmt);
 						/* bind result variables */
@@ -49,10 +49,6 @@
 								echo "Department: " . $dept . "<br />";
 							}
 						//}
-						//$row = mysql_fetch_array( $result ); //old MySQL code
-						/*echo "Name: ".$row['user_name']."<br />";
-						echo "Gender: ".$row['gender']."<br />";
-						echo "Department: ".$row['dept_name']; //show 'about me' here or other useful links*/
 						mysqli_stmt_close($stmt);
 					?>
 				</div>
@@ -88,53 +84,77 @@
 					<div class="tabbertab" title="Users">
 						<?php
 							//$user_id = $_SESSION['uid'];   //use this actually
-							$user_id = '55739';
+							$user_id = '44553';
 							$stmt = mysqli_stmt_init($con);
-							mysqli_stmt_prepare($stmt, "SELECT user.user_name FROM user, user_follow WHERE user.user_id = user_follow.follower_id AND user_follow.user_id = ?") or die(mysqli_error());
+							mysqli_stmt_prepare($stmt, "SELECT User1.user_name FROM User1, User_Follow WHERE User1.user_id = User_Follow.followed_id AND User_Follow.user_id = ?") or die(mysqli_error());
 							mysqli_stmt_bind_param($stmt, 's', $user_id);
 							mysqli_stmt_execute($stmt);
-							/* bind result variables */
-							mysqli_stmt_bind_result($stmt, $name);
-							/*if(mysqli_stmt_num_rows($stmt) == '0'){
-								echo "You Don't follow any users";
+							mysqli_stmt_store_result($stmt);
+							if(mysqli_stmt_num_rows($stmt) == '0'){
+								echo "You Don't follow any Users";
 							}
 							else{
+								/* bind result variables */
+								mysqli_stmt_bind_result($stmt, $name);
 								/* fetch value */
 								echo "<ui>";
 								while ( mysqli_stmt_fetch($stmt) ) {
 									echo "<li>" . $name . "</li>";
 								}
 								echo "</ui>";
-							//}
+							}
 							mysqli_stmt_close($stmt);
 						?>
 					</div>
 					<div class="tabbertab" title="Instructors">
 						<?php
 							//$user_id = $_SESSION['uid'];   //use this actually
-							$user_id = '55739';
+							$user_id = '44553';
 							$stmt = mysqli_stmt_init($con);
-							mysqli_stmt_prepare($stmt, "SELECT inst_name FROM inst_follow NATURAL JOIN instructor WHERE user_id = ?") or die(mysqli_error());
+							mysqli_stmt_prepare($stmt, "SELECT inst_name FROM Instr_Follow NATURAL JOIN Instructor WHERE user_id = ?") or die(mysqli_error());
 							mysqli_stmt_bind_param($stmt, 's', $user_id);
 							mysqli_stmt_execute($stmt);
-							/* bind result variables */
-							mysqli_stmt_bind_result($stmt, $name);
-							/*if(mysqli_stmt_num_rows($stmt) == '0'){
-								echo "You Don't follow any users";
+							mysqli_stmt_store_result($stmt);
+							if(mysqli_stmt_num_rows($stmt) == '0'){
+								echo "You Don't follow any Instructors";
 							}
 							else{
+								/* bind result variables */
+								mysqli_stmt_bind_result($stmt, $name);
 								/* fetch value */
 								echo "<ui>";
 								while ( mysqli_stmt_fetch($stmt) ) {
 									echo "<li>" . $name . "</li>";
 								}
 								echo "</ui>";
-							//}
+							}
 							mysqli_stmt_close($stmt);
 						?>
 					</div>
 					<div class="tabbertab" title="Courses">
-						<p>Tab 3 content.</p>
+						<?php
+							//$user_id = $_SESSION['uid'];   //use this actually
+							$user_id = '44553';
+							$stmt = mysqli_stmt_init($con);
+							mysqli_stmt_prepare($stmt, "SELECT course_name FROM Course_Follow NATURAL JOIN Course WHERE user_id = ?") or die(mysqli_error());
+							mysqli_stmt_bind_param($stmt, 's', $user_id);
+							mysqli_stmt_execute($stmt);
+							mysqli_stmt_store_result($stmt);
+							if(mysqli_stmt_num_rows($stmt) == '0'){
+								echo "You Don't follow any Courses";
+							}
+							else{
+								/* bind result variables */
+								mysqli_stmt_bind_result($stmt, $name);
+								/* fetch value */
+								echo "<ui>";
+								while ( mysqli_stmt_fetch($stmt) ) {
+									echo "<li>" . $name . "</li>";
+								}
+								echo "</ui>";
+							}
+							mysqli_stmt_close($stmt);
+						?>
 					</div>
 				</div>
 			</div>

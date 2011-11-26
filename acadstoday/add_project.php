@@ -23,7 +23,7 @@
 							<td><select name="instructor">
 							<?php
 								$stmt = mysqli_stmt_init($con);
-								mysqli_stmt_prepare($stmt, "SELECT inst_id, inst_name FROM instructor") or die(mysqli_error());
+								mysqli_stmt_prepare($stmt, "SELECT inst_id, inst_name FROM Instructor") or die(mysqli_error());
 								mysqli_stmt_execute($stmt);
 								mysqli_stmt_bind_result($stmt, $inst_id, $inst_name);
 								while (mysqli_stmt_fetch($stmt)) {
@@ -40,7 +40,7 @@
 				
 						<?php
 					
-							mysqli_stmt_prepare($stmt, "SELECT course_id, course_name FROM course") or die(mysqli_error());
+							mysqli_stmt_prepare($stmt, "SELECT course_id, course_name FROM Course") or die(mysqli_error());
 							mysqli_stmt_execute($stmt);
 							mysqli_stmt_bind_result($stmt, $course_id, $course_name);
 							while (mysqli_stmt_fetch($stmt)) {
