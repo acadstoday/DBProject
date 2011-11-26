@@ -29,19 +29,22 @@
 					if ($_REQUEST['course'] == null){
 						echo "<i>Enter something to search</i>";
 					}
+					else{
+						$search_query = "%" . $_REQUEST['course'] . "%";
+					}
 					if(isset($_REQUEST['option1']) && isset($_REQUEST['option2']) && $_REQUEST['option1'] == "course_id" && $_REQUEST['option2'] == "course_name"){
-						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE course_name like '%?%' OR course_id like '%?%'") or die(mysqli_error());
-						mysqli_stmt_bind_param($stmt,'ss', $_REQUEST['course'],$_REQUEST['course']);
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE course_name like ? OR course_id like ?") or die(mysqli_error());
+						mysqli_stmt_bind_param($stmt,'ss', $search_query, $search_query);
 					}
 
 					elseif(isset($_REQUEST['option1']) && $_REQUEST['option1'] == "course_id"){
-						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE lower(course_id) like '%?%'") or die(mysqli_error());
-						mysqli_stmt_bind_param($stmt,'s', $_REQUEST['course']);
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE lower(course_id) like ?") or die(mysqli_error());
+						mysqli_stmt_bind_param($stmt,'s', $search_query);
 					}
 
 					elseif(isset($_REQUEST['option2']) && $_REQUEST['option2'] == "course_name"){
-						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE lower(course_name) like '%?%'") or die(mysqli_error());
-						mysqli_stmt_bind_param($stmt,'s', $_REQUEST['course']);
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM course WHERE lower(course_name) like ?") or die(mysqli_error());
+						mysqli_stmt_bind_param($stmt,'s', $search_query);
 					}
 					else{
 						$help = "";
@@ -56,10 +59,10 @@
 						mysqli_stmt_bind_result($stmt, $course_id, $course_name, $dept_name);
 						
 						echo "<hr />";
-						if(mysqli_stmt_num_rows($stmt) == 0){
+						/*if(mysqli_stmt_num_rows($stmt) == 0){
 							echo "No Courses found";
 						}
-						else{
+						else{*/
 							echo "<form method='POST' action='' >";
 							while (mysqli_stmt_fetch($stmt)) {
 								echo "<input type='radio' name='group1' value='" . $course_id . "' >";
@@ -73,7 +76,7 @@
 							echo "</br>";
 							echo "<input type='submit' name='submit' value='Register' />";
 							echo "</form>";
-						}
+						//}
 					}
 					mysqli_stmt_close($stmt);
 				}
