@@ -76,7 +76,7 @@ CREATE TABLE User1
 	dept_name VARCHAR(50),
 	prog_name VARCHAR(20),
 	gender VARCHAR(8),
-	dob DATETIME(10),
+	dob VARCHAR(10),
 	user_info LONGTEXT,
 	profile_pic LONGTEXT,
 	PRIMARY KEY (user_id),
@@ -107,8 +107,8 @@ CREATE TABLE Project
 	project_id CHAR(5),
 	topic VARCHAR(100),
 	project_info LONGTEXT,
-	start_date DATETIME(10),
-	end_date DATETIME(10),
+	start_date VARCHAR(10),
+	end_date VARCHAR(10),
 	PRIMARY KEY (project_id)
 );
 
@@ -172,7 +172,7 @@ CREATE TABLE Upload
 	link LONGTEXT NOT NULL,
 	PRIMARY KEY (upload_id),
 	CHECK (format IN ('ppt', 'pdf', 'doc', 'jpg', 'other')),
-	CHECK (type IN ('notes', 'lectures', 'ebook', 'exam-paper', 'reserach-paper', 'assignments', 'other'))
+	CHECK (type IN ('notes', 'lectures', 'ebook', 'exam-paper', 'research-paper', 'assignment', 'other'))
 );
 
 CREATE TABLE Uploader
@@ -194,7 +194,7 @@ CREATE TABLE News
 	user_id VARCHAR(15),
 	news LONGTEXT NOT NULL,
 	tags LONGTEXT,
-	date TIMESTAMP(10),
+	date VARCHAR(10),
 	PRIMARY KEY (news_id),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
 		ON DELETE SET NULL
