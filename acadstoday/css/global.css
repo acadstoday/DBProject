@@ -11,6 +11,11 @@
 }*/
 
 
+a:hover, a:visited, a:link, a:active {
+	text-decoration:none;
+	color:#0000FF;
+}
+
 
 /* css to stretch the page so that footer is always at the bottom */
 html, body {

@@ -28,7 +28,7 @@
 						echo "<tr><th>Course ID</th><th>Course Name</th><th>Department Name</th></tr>";
 						while ( mysqli_stmt_fetch($stmt) ) {
 							echo "<tr>";
-							echo "<td>" . $course_id . "</td>";
+							echo "<td><a href='course_page.php?course_id=" . $course_id . "'>" . $course_id . "</a></td>";
 							echo "<td>" . $course_name . "</td>";
 							echo "<td>" . $dept_name . "</td>";
 							echo "</tr>";

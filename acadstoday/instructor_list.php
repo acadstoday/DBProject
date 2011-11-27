@@ -15,7 +15,7 @@
 				<h2>List of Instructors</h2>
 				<?php
 					$stmt = mysqli_stmt_init($con);
-					mysqli_stmt_prepare($stmt, "SELECT inst_name, dept_name FROM Instructor") or die(mysqli_error());
+					mysqli_stmt_prepare($stmt, "SELECT inst_id, inst_name, dept_name FROM Instructor") or die(mysqli_error());
 					mysqli_stmt_execute($stmt);
 					mysqli_stmt_store_result($stmt);
 					if(mysqli_stmt_num_rows($stmt) == 0){
@@ -23,13 +23,13 @@
 					}
 					else{
 						/* bind result variables */
-						mysqli_stmt_bind_result($stmt, $inst_name, $dept_name);
+						mysqli_stmt_bind_result($stmt, $inst_id, $inst_name, $dept_name);
 						/* fetch value */
 						echo "<table border='0'>";
 						echo "<tr><th>Instructor Name</th><th>Department Name</th></tr>";
 						while ( mysqli_stmt_fetch($stmt) ) {
 							echo "<tr>";
-							echo "<td>" . $inst_name . "</td>";
+							echo "<td><a href='instructor_page.php?inst_id=" . $inst_id . "'>" . $inst_name . "</a></td>";
 							echo "<td>" . $dept_name . "</td>";
 							echo "</tr>";
 						}

@@ -43,5 +43,8 @@ td{
 }
 
 #error{
-	float: left
+	float: left;
+	color:#FF0000;
+	margin-top:15px;
+	padding-top:15px;
 }
