@@ -25,7 +25,7 @@ html, body {
 }
 
 .footer, .push {
-	height: 2em;
+	height: 5em;
 }
 
 
@@ -100,6 +100,15 @@ html, body {
 	padding:15px;
 }
 
+#list td.submit
+{
+	background-color:#FFFFFF;
+	text-align:left;
+	padding:15px;
+	padding-left:5px;
+	
+}
+
 
 /*for left table in home of user */
 #leftlist a
@@ -111,7 +120,8 @@ html, body {
 {
 	text-align:left;
 	background-color:#b0c4de;
-	padding:15px;
+	padding:5px;
+	padding-left:10px;
 }
 
 #leftlist td
@@ -119,4 +129,34 @@ html, body {
 	text-align:left;
 	padding:2px;
 	padding-left:10px;
+}
+
+#leftlist td.submit
+{
+	background-color:#FFFFFF;
+	text-align:left;
+	padding:15px;
+	padding-left:5px;
+	
+}
+
+/* table of add project */
+#protable td
+{
+	text-align:left;
+	padding:4px;
+}
+
+/* for error div*/
+.error
+{
+	color:#FF0000;
+}
+
+/* logo in header */
+#logo
+{
+	position:relative;
+    float:left;
+    padding-left:2em;
 }

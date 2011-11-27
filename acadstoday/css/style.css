@@ -11,7 +11,6 @@ a { text-decoration:none }
 #loginContainer {
     position:relative;
     float:right;
-    font-size:12px;
     margin-right:4%;
 }
 
@@ -31,7 +30,7 @@ a { text-decoration:none }
 /* Login Button Text */
 #loginButton span {
     color:#445058; 
-    font-size:14px; 
+    font-size:14px;
     font-weight:bold; 
     text-shadow:1px 1px #fff; 
     padding:7px 29px 9px 10px;

@@ -61,10 +61,11 @@ require('err.php');
 						</form>
 					</div>
 				</div>
-				<div id="error">
+				<div class="error">
 						<?php err_print(); ?>
 				</div>
 			</div>
+			<div class="push"></div>
 		</div>
 			<!-- footer code -->
 			<?php include("footer.php"); ?>

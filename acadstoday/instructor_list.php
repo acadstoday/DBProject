@@ -37,7 +37,7 @@
 				?>
 			</div>
 			
-			
+			<div class="push"></div>
 		</div>
 			<!-- footer code -->
 			<?php include("footer.php"); ?>

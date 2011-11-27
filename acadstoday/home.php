@@ -33,7 +33,7 @@
 						//$user_id = $_SESSION['uid'];   //use this actually
 						$user_id = '44553';
 						$stmt = mysqli_stmt_init($con);
-						mysqli_stmt_prepare($stmt, "SELECT user_name, gender, dept_name FROM User1 WHERE user_id = ?") or die(mysqli_error());
+						mysqli_stmt_prepare($stmt, "SELECT user_name, gender, dept_name FROM User WHERE user_id = ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt, 's', $user_id);
 						mysqli_stmt_execute($stmt);
 						mysqli_stmt_store_result($stmt);
@@ -52,6 +52,13 @@
 						}
 						mysqli_stmt_close($stmt);
 					?>
+				<tr><td></td></tr>
+				<tr><td></td></tr>
+				<tr><td></td></tr>
+				<tr><td></td></tr>
+				<tr><td></td></tr>
+				<tr><td></td></tr>
+				<tr><td></td></tr>
 				<tr><th><a href="news.php">News</a></th></tr>
 				</table>
 			</div>
@@ -88,7 +95,7 @@
 							//$user_id = $_SESSION['uid'];   //use this actually
 							$user_id = '44553';
 							$stmt = mysqli_stmt_init($con);
-							mysqli_stmt_prepare($stmt, "SELECT User1.user_name FROM User1, User_Follow WHERE User1.user_id = User_Follow.followed_id AND User_Follow.user_id = ?") or die(mysqli_error());
+							mysqli_stmt_prepare($stmt, "SELECT User.user_name FROM User, User_Follow WHERE User.user_id = User_Follow.followed_id AND User_Follow.user_id = ?") or die(mysqli_error());
 							mysqli_stmt_bind_param($stmt, 's', $user_id);
 							mysqli_stmt_execute($stmt);
 							mysqli_stmt_store_result($stmt);

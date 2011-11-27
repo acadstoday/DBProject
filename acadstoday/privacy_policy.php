@@ -17,7 +17,7 @@
 				after all, you all are here to connect and restricting this nullifies the basic purpose of the website!</p>
 				<p>Also, you can delete your account at any point of time in future.</p>
 			</div>
-			
+			<div class="push"></div>
 		</div>
 			<!-- footer code -->
 			<?php include("footer.php"); ?>

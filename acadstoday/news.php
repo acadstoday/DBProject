@@ -38,7 +38,7 @@
 					mysqli_stmt_close($stmt);
 				?>
 			</div>
-			
+			<div class="push"></div>
 		</div>
 			<!-- footer code -->
 			<?php include("footer.php"); ?>

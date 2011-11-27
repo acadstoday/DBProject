@@ -13,7 +13,7 @@
 				<h2>List of Users</h2>
 				<?php
 					$stmt = mysqli_stmt_init($con);
-					mysqli_stmt_prepare($stmt, "SELECT user_name, dept_name, prog_name FROM User1") or die(mysqli_error());
+					mysqli_stmt_prepare($stmt, "SELECT user_name, dept_name, prog_name FROM User") or die(mysqli_error());
 					mysqli_stmt_execute($stmt);
 					mysqli_stmt_store_result($stmt);
 					if(mysqli_stmt_num_rows($stmt) == 0){
@@ -37,7 +37,7 @@
 					mysqli_stmt_close($stmt);
 				?>
 			</div>
-			
+			<div class="push"></div>
 			
 		</div>
 			<!-- footer code -->

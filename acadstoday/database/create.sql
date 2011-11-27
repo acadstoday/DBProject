@@ -68,7 +68,7 @@ CREATE TABLE Teaches
 	CHECK (semester IN ('Autumn', 'Spring'))
 );
 
-CREATE TABLE User1
+CREATE TABLE User
 (
 	user_id VARCHAR(15), 
 	user_name VARCHAR(20) NOT NULL, 
@@ -76,7 +76,9 @@ CREATE TABLE User1
 	dept_name VARCHAR(50),
 	prog_name VARCHAR(20),
 	gender VARCHAR(8),
-	dob VARCHAR(10),
+	dob_date INT(2),
+	dob_month INT(2),
+	dob_year INT(4),
 	user_info LONGTEXT,
 	profile_pic LONGTEXT,
 	PRIMARY KEY (user_id),
@@ -85,6 +87,8 @@ CREATE TABLE User1
 	FOREIGN KEY (prog_name) REFERENCES Program(prog_name)
 		ON DELETE SET NULL,
 	CHECK (LENGTH(password) > 5),
+	CHECK (dob_date > 0 AND dob_date < 32),
+	CHECK (dob_month > 0 AND dob_month < 13),
 	CHECK (gender IN ('Male', 'Female', 'Other'))
 );
 
@@ -107,9 +111,17 @@ CREATE TABLE Project
 	project_id CHAR(5),
 	topic VARCHAR(100),
 	project_info LONGTEXT,
-	start_date VARCHAR(10),
-	end_date VARCHAR(10),
-	PRIMARY KEY (project_id)
+	start_date INT(2),
+	start_month INT(2),
+	start_year INT(4),
+	end_date INT(2),
+	end_month INT(2),
+	end_year INT(4),
+	PRIMARY KEY (project_id),
+	CHECK (start_date > 0 AND start_date < 32),
+	CHECK (start_month > 0 AND start_month < 13),
+	CHECK (end_date > 0 AND end_date < 32),
+	CHECK (end_month > 0 AND end_month < 13)
 );
 
 CREATE TABLE Project_Guide
@@ -167,7 +179,7 @@ CREATE TABLE Upload
 	upload_id VARCHAR(15),
 	format VARCHAR(10),
 	type VARCHAR(15),
-	date VARCHAR(10),
+	time_stamp TIMESTAMP(10),
 	tot_downloads INT(10),
 	link LONGTEXT NOT NULL,
 	PRIMARY KEY (upload_id),
@@ -194,7 +206,7 @@ CREATE TABLE News
 	user_id VARCHAR(15),
 	news LONGTEXT NOT NULL,
 	tags LONGTEXT,
-	date VARCHAR(10),
+	time_stamp TIMESTAMP(10),
 	PRIMARY KEY (news_id),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
 		ON DELETE SET NULL
@@ -204,6 +216,7 @@ CREATE TABLE User_Follow
 (
 	user_id VARCHAR(15),
 	followed_id VARCHAR(15),
+	time_stamp TIMESTAMP(10),
 	PRIMARY KEY (user_id, followed_id),
 	FOREIGN KEY (user_id, followed_id) REFERENCES User1(user_id, user_id)
 		ON DELETE CASCADE
@@ -213,6 +226,7 @@ CREATE TABLE Instr_Follow
 (
 	user_id VARCHAR(15),
 	inst_id CHAR(5),
+	time_stamp TIMESTAMP(10),
 	PRIMARY KEY (user_id, inst_id),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
 		ON DELETE CASCADE,
@@ -224,6 +238,7 @@ CREATE TABLE Course_Follow
 (
 	user_id VARCHAR(15),
 	course_id VARCHAR(10),
+	time_stamp TIMESTAMP(10),
 	PRIMARY KEY (user_id, course_id),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
 		ON DELETE CASCADE,
@@ -236,7 +251,7 @@ CREATE TABLE Instr_Comments
 	inst_id CHAR(5),
 	user_id VARCHAR(15),
 	comment LONGTEXT NOT NULL,
-	date VARCHAR(10),
+	time_stamp TIMESTAMP(10),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
 		ON DELETE CASCADE,
 	FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id)
@@ -248,7 +263,7 @@ CREATE TABLE Course_Comments
 	course_id VARCHAR(10),
 	user_id VARCHAR(15),
 	comment LONGTEXT NOT NULL,
-	date VARCHAR(10),
+	time_stamp TIMESTAMP(10),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
 		ON DELETE CASCADE,
 	FOREIGN KEY (course_id) REFERENCES Course(course_id)
@@ -260,7 +275,7 @@ CREATE TABLE Upload_Comments
 	upload_id VARCHAR(15),
 	user_id VARCHAR(15),
 	comment LONGTEXT NOT NULL,
-	date VARCHAR(10),
+	time_stamp TIMESTAMP(10),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
 		ON DELETE CASCADE,
 	FOREIGN KEY (upload_id) REFERENCES Upload(upload_id)
@@ -272,6 +287,7 @@ CREATE TABLE Upload_Rating
 	upload_id VARCHAR(15),
 	user_id VARCHAR(15),
 	rating INT(1),
+	time_stamp TIMESTAMP(10),
 	PRIMARY KEY (upload_id, user_id),
 	CHECK (rating > 0 AND rating < 6),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
@@ -285,6 +301,7 @@ CREATE TABLE Course_Rating
 	course_id VARCHAR(10),
 	user_id VARCHAR(15),
 	rating INT(1),
+	time_stamp TIMESTAMP(10),
 	PRIMARY KEY (course_id, user_id),
 	CHECK (rating > 0 AND rating < 6),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)
@@ -298,6 +315,7 @@ CREATE TABLE Instr_Rating
 	inst_id CHAR(5),
 	user_id VARCHAR(15),
 	rating INT(1),
+	time_stamp TIMESTAMP(10),
 	PRIMARY KEY (inst_id, user_id),
 	CHECK (rating > 0 AND rating < 6),
 	FOREIGN KEY (user_id) REFERENCES User1(user_id)

@@ -13,10 +13,12 @@
 				<h2>Course Registration</h2>
 
 				<form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>" >
-					Search: <input type="text" size="12" maxlength="12" name="course" value=""/><br>
-					<input type="checkbox" name="option1" value="course_id" /> Search by Course ID<br>
-					<input type="checkbox" name="option2" value="course_name" /> Search by Course Name<br>
-					<input type="submit" name="submit" value="Search" />
+					<table id="leftlist" border="0">
+						<tr><td>Search: <input type="text" size="12" maxlength="12" name="course" value=""/></td></tr>
+						<tr><td><input type="checkbox" name="option1" value="course_id" /> Search by Course ID</td></tr>
+						<tr><td><input type="checkbox" name="option2" value="course_name" /> Search by Course Name</td></tr>
+						<tr><td class="submit"><input type="submit" name="submit" value="Search" /></td></tr>
+					</table>
 				</form>
 
 				<?php
@@ -27,7 +29,7 @@
 				if (isset($_REQUEST['course'])){
 					
 					if ($_REQUEST['course'] == null){
-						echo "<i>Enter something to search</i>";
+						echo "<div class='error'>Enter something to search</div>";
 					}
 					else{
 						$search_query = "%" . $_REQUEST['course'] . "%";
@@ -49,39 +51,41 @@
 					else{
 						$help = "";
 						if($_REQUEST['course'] != ""){
-						echo "<i>Select whether to search by ID or name<i>";
+						echo "<div class='error'>Select whether to search by ID or name</div>";
 						}
 					}
 					
 					if ($_REQUEST['course'] != "" && $help != ""){
-						mysqli_stmt_execute($stmt);
-						//mysqli_stmt_store_result($stmt);
-						mysqli_stmt_bind_result($stmt, $course_id, $course_name, $dept_name);
-						
 						echo "<hr />";
-						/*if(mysqli_stmt_num_rows($stmt) == 0){
+						mysqli_stmt_execute($stmt);
+						mysqli_stmt_store_result($stmt);
+						if(mysqli_stmt_num_rows($stmt) == 0){
 							echo "No Courses found";
 						}
-						else{*/
+						else{
+							mysqli_stmt_bind_result($stmt, $course_id, $course_name, $dept_name);
 							echo "<form method='POST' action='' >";
+							echo "<table id='list' border='0'>";
+							echo "<tr><th>Select</th><th>Course ID</th><th>Course Name</th><th>Department Name</th></tr>";
 							while (mysqli_stmt_fetch($stmt)) {
-								echo "<input type='radio' name='group1' value='" . $course_id . "' >";
-								echo $course_id;
-								echo "&nbsp&nbsp&nbsp";
-								echo $course_name;
-								echo "&nbsp&nbsp&nbsp";
-								echo $dept_name;
-								echo "</br>";
+								
+								echo "<tr>";
+								echo "<td><input type='radio' name='group1' value='" . $course_id . "' ></td>";
+								echo "<td>" . $course_id . "</td>";
+								echo "<td>" . $course_name . "</td>";
+								echo "<td>" . $dept_name . "</td>";
+								echo "</tr>";
 							}
-							echo "</br>";
-							echo "<input type='submit' name='submit' value='Register' />";
+							echo "<tr><td class='submit' colspan='4'><input type='submit' name='submit' value='Register' /></td></tr>";
+							echo "</table>";
 							echo "</form>";
-						//}
+						}
 					}
 					mysqli_stmt_close($stmt);
 				}
 				?>
 			</div>
+			<div class="push"></div>
 		</div>
 			<!-- footer code -->
 			<?php include("footer.php"); ?>

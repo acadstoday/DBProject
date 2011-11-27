@@ -14,7 +14,7 @@
 				<h2>Contact Us</h2>
 				<p>Contact Form to be added soon ....</p>
 			</div>
-			
+			<div class="push"></div>
 		</div>
 			<!-- footer code -->
 			<?php include("footer.php"); ?>

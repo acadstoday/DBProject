@@ -22,7 +22,7 @@
 					<li>Shikhar Paliwal (09005029)</li>
 				</ul>
 			</div>
-			
+			<div class="push"></div>
 		</div>
 			<!-- footer code -->
 			<?php include("footer.php"); ?>
