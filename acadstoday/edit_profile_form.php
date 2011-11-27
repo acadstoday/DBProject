@@ -6,6 +6,8 @@
 
 <html>
 	<head>
+		<title>Edit Profile</title>
+		<?php include("header-head.php"); ?>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>techchorus.net Dojo Date Picker Example</title>
 		<style type="text/css">
@@ -21,6 +23,12 @@
 	</head>
 
 	<body class="tundra">
+	<div class="wrapper">
+			<!-- connecting to database -->
+			<?php include("db-connect.php"); ?>
+			<!-- header code -->
+			<?php include("header-body.php"); ?>
+			
 		<h1>Edit Profile</h1>
 		<form name="edit_profile_form" action="edit_profile.php" method="post">
 		<table>
@@ -32,6 +40,13 @@
 		<tr><td><input type="submit" value="Save"></td><td></td></tr>
 		</table>
 		</form>
+		
+		</div>
+			<!-- footer code -->
+			<?php include("footer.php"); ?>
+			
+			<!-- disconnect the database connection-->
+			<?php include("db-disconnect.php"); ?>
 	</body>
 </html>
 

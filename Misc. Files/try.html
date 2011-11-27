@@ -2,20 +2,26 @@
             "http://www.w3.org/TR/html4/strict.dtd"-->
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>techchorus.net Dojo Date Picker Example</title>
 <style type="text/css">
-        @import "http://o.aolcdn.com/dojo/1.0/dijit/themes/tundra/tundra.css";
-        @import "http://o.aolcdn.com/dojo/1.0/dojo/resources/dojo.css"
+<!--
+.restaurant-stars { display:block; width:250px; height:47px; background:url('blank.png') no-repeat; }
+.restaurant-stars-rating { display:block; width:215px; height:47px; background:url('color.png') no-repeat; }
+-->
 </style>
-<script type="text/javascript" src="http://o.aolcdn.com/dojo/1.0/dojo/dojo.xd.js"
-        djConfig="parseOnLoad: true">
-</script>
-<script type="text/javascript">
-        dojo.require("dijit.form.DateTextBox");
-</script>
 </head>
-<body class="tundra"> 
-<input type="text" name="date"  dojoType="dijit.form.DateTextBox" required="true" />
+<script type="text/javascript">
+function runPHP(){
+document.write ("Hello");
+<?php echo "Thuk gayee!!"; ?>
+}
+</script>
+<body onLoad="runPHP()"> 
+<div class="restaurant-stars">
+	<div class="restaurant-stars-rating" title="2.5">              
+		&nbsp;
+	</div>
+	<center>&nbsp;2.5 (57 Votes)</center>
+	<input type="range"  min="1" max="5" onchange="javascript:runPHP()"/>
+</div>
 </body>
 </html>
