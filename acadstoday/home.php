@@ -86,9 +86,9 @@
 			
 			<!-- right panel starts which has search box and togglable list of courses taken/instructors followed etc. --> 
 			<div id="rightpanel">
-				<form class="searchform">
-					<input class="searchfield" type="text" value="Search Here" onfocus="if (this.value == 'Search Here') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search Here';}" />
-					<input class="searchbutton" type="button" value="Go" />
+				<form class="searchform" action="search.php" method="get">
+					<input class="searchfield" name="search_text" type="text" value="Search Here" onfocus="if (this.value == 'Search Here') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search Here';}" />
+					<input class="searchbutton" type="submit" value="Go" />
 				</form>
 				<h3>Follower Lists</h3>
 				<div id="tabber2" class="tabber">
