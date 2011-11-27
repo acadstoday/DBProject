@@ -7,8 +7,8 @@ require('err.php');
 		<title>Login Page</title>
 		<script type="text/javascript" src="js/login.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/global.css" />
-		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<link rel="stylesheet" type="text/css" href="css/login.css" />
+		<link rel="stylesheet" type="text/css" href="css/header.css" />
 	</head>
 	<body>
 		<div class="wrapper">
@@ -49,9 +49,6 @@ require('err.php');
 								<tr>
 									<td><label for="pwd1">Your New Password</label></td>
 									<td><input type="password" name="pwd1" id="pwd1" tabindex="3" /></td></tr>
-								<tr>
-									<td><label for="pwd2">Re-enter Password</label></td>
-									<td><input type="password" name="pwd2" id="pwd2" tabindex="4" /></td></tr>
 								<tr>
 									<td></td>
 									<td><br/><input value="Sign Up" tabindex="5" type="submit" /></td></tr>

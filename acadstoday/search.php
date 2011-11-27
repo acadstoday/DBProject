@@ -2,24 +2,8 @@
 	<head>
 		<title>Search Results of '<?php echo $_GET["search_text"]; ?>'</title>
 		<?php include("header-head.php"); ?>
-		
-		<script type="text/javascript" src="js/tabber.js"></script>
-		<!-- <script type="text/javascript" src="js/tabber-minimized.js"></script> -->
-		<link rel="stylesheet" type="text/css" href="css/tabber.css" />
-		<style type="text/css">
-		td.datacellone {
-			background-color: #EAF2D3; color: #000000;
-		}
-		td.datacelltwo {
-			background-color: #ffffff; color: #000000;
-		}
-		td, th 
-		{
-		font-size:1em;
-		border:1px solid #98bf21;
-		padding:3px 7px 2px 7px;
-		}
-		</style>
+		<script type="text/javascript" src="js/easytab_search.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/easytab_search.css" />
 	</head>
 	<body>
 		<div class="wrapper">
@@ -28,178 +12,115 @@
 			<!-- header code -->
 			<?php include("header-body.php"); ?>
 			
-			<div id="center">
+			<div class="leftpad">
 				<h3>Search Result for Query "<?php echo $_GET["search_text"]; ?>"</h3>
-				<div class="tabber">
-					<div class="tabbertab" title="Courses">
-					
-						<table>
-						<?php
+				
+				<!--Start of the Tabmenu 1 -->
+				<div class="menu">
+					<ul>
+						<li><a href="#" onmouseover="easytabs('1', '1');" onfocus="easytabs('1', '1');"  onclick="easytabs('1', '1');" title="" id="tablink1">Courses</a></li>
+						<li><a href="#" onmouseover="easytabs('1', '2');" onfocus="easytabs('1', '2');"  onclick="easytabs('1', '2');" title="" id="tablink2">Instructors</a></li>
+						<li><a href="#" onmouseover="easytabs('1', '3');" onfocus="easytabs('1', '3');"  onclick="easytabs('1', '3');" title="" id="tablink3">Users</a></li>
+						<li><a href="#" onmouseover="easytabs('1', '4');" onfocus="easytabs('1', '4');"  onclick="easytabs('1', '4');" title="" id="tablink4">Upload</a></li>
+					</ul>
+				</div>
+				<div id="tabcontent1">
+					<?php
 						$stmt = mysqli_stmt_init($con);
 						$search_query = "%" . $_GET["search_text"] . "%";
 						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM Course WHERE lower(course_name) like ? OR lower(dept_name) like ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'ss', $search_query, $search_query);
 						mysqli_stmt_execute($stmt);
-						//mysqli_stmt_store_result($stmt);
-						mysqli_stmt_bind_result($stmt, $course_id, $course_name, $dept_name);
-						$count = 0;
-						while (mysqli_stmt_fetch($stmt)) {
-								if ($count %2 == 0){
-									echo "<tr><td class=\"datacellone\">";
-								}
-								else{
-									echo "<tr><td class=\"datacelltwo\">";
-								}
-								echo "<a href=\"course_page.php?course_id=".$course_id."\">";
-								echo $course_id;
-								echo "</td>";
-								if ($count %2 == 0){
-									echo "<td class=\"datacelltwo\">";
-								}
-								else{
-									echo "<td class=\"datacellone\">";
-								}
-								echo $course_name;
-								echo "</td>";
-								if ($count %2 == 0){
-									echo "<td class=\"datacellone\">";
-								}
-								else{
-									echo "<td class=\"datacelltwo\">";
-								}
-								echo $dept_name;
-								echo "</a>";
-								echo "</td></tr>";
-								$count = $count + 1;
+						mysqli_stmt_store_result($stmt);
+						if(mysqli_stmt_num_rows($stmt) == 0){
+							echo "No Search Results";
 						}
-						?>
-						</table>
-					</div>
-					<div class="tabbertab" title="Instructors">
-						<table>
-						<?php
-
+						else{
+							mysqli_stmt_bind_result($stmt, $course_id, $course_name, $dept_name);
+							echo "<table border='0' id='list'>";
+							echo "<tr><th>Course ID</th><th>Course Name</th><th>Department Name</th></tr>";
+							while (mysqli_stmt_fetch($stmt)) {
+									echo "<tr><td><a href='course_page.php?course_id=" . $course_id . "'>" . $course_id . "</a></td>";
+									echo "<td>" . $course_name . "</td>";
+									echo "<td>" . $dept_name . "</td></tr>";
+							}
+							echo "</table>";
+						}
+					?>
+				</div>
+				
+				<div id="tabcontent2">
+					<?php
 						mysqli_stmt_prepare($stmt, "SELECT inst_id,inst_name, dept_name FROM Instructor WHERE lower(inst_name) like ? OR lower(dept_name) like ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'ss', $search_query, $search_query);
 						mysqli_stmt_execute($stmt);
-						//mysqli_stmt_store_result($stmt);
-						mysqli_stmt_bind_result($stmt, $inst_id,$inst_name, $dept_name);
-						while (mysqli_stmt_fetch($stmt)) {
-								if ($count %2 == 0){
-									echo "<tr><td class=\"datacellone\">";
-								}
-								else{
-									echo "<tr><td class=\"datacelltwo\">";
-								}
-								echo "<a href=\"instructor_page.php?inst_id=".$inst_id."\">";
-								echo $inst_name;
-								echo "</td>";
-								if ($count %2 == 0){
-									echo "<td class=\"datacelltwo\">";
-								}
-								else{
-									echo "<td class=\"datacellone\">";
-								}
-
-								echo $dept_name;
-								echo "</a>";
-								echo "</td></tr>";
-								$count = $count + 1;
+						mysqli_stmt_store_result($stmt);
+						if(mysqli_stmt_num_rows($stmt) == 0){
+							echo "No Search Results";
 						}
-						?>
-						</table>
-					</div>
-					<div class="tabbertab" title="Users">
-						<table>
-						<?php
-						mysqli_stmt_prepare($stmt, "SELECT user_id,user_name, dept_name FROM User WHERE lower(user_name) like ? OR (dept_name) like ?") or die(mysqli_error());
-						mysqli_stmt_bind_param($stmt,'ss', $search_query, $search_query);
-						mysqli_stmt_execute($stmt);
-						//mysqli_stmt_store_result($stmt);
-						mysqli_stmt_bind_result($stmt, $user_id,$user_name, $dept_name);
-						while (mysqli_stmt_fetch($stmt)) {
-								if ($count %2 == 0){
-									echo "<tr><td class=\"datacellone\">";
-								}
-								else{
-									echo "<tr><td class=\"datacelltwo\">";
-								}
-								echo "<a href=\"user_page.php?user_id=".$user_id."\">";
-								echo $user_name;
-								echo "</td>";
-								if ($count %2 == 0){
-									echo "<td class=\"datacelltwo\">";
-								}
-								else{
-									echo "<td class=\"datacellone\">";
-								}
-
-								echo $dept_name;
-								echo "</a>";
-								echo "</td></tr>";
-								$count = $count + 1;
+						else{
+							mysqli_stmt_bind_result($stmt, $inst_id, $inst_name, $dept_name);
+							echo "<table border='0' id='list'>";
+							echo "<tr><th>Instructor Name</th><th>Department Name</th></tr>";
+							while (mysqli_stmt_fetch($stmt)) {
+									echo "<tr><td><a href='instructor_page.php?inst_id=" . $inst_id . "'>" . $inst_name . "</a></td>";
+									echo "<td>" . $dept_name . "</td></tr>";
+							}
+							echo "</table>";
 						}
-						?>
-						</table>
-						
-					</div>
-					<div class="tabbertab" title="Upload">
-						SEARCH WITH NAME - NOT DONE</br>
-						<table>
-						<?php
-						mysqli_stmt_prepare($stmt, "SELECT upload_id, format, type, course_id FROM Upload NATURAL JOIN Uploader WHERE lower(format) like ? OR lower(type) like ? OR lower(course_id) like ?");
+					?>
+				</div>
+				
+				<div id="tabcontent3">
+					<?php
+						mysqli_stmt_prepare($stmt, "SELECT user_id, user_name, dept_name, prog_name FROM User WHERE lower(user_name) like ? OR (dept_name) like ? OR lower(prog_name) like ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'sss', $search_query, $search_query, $search_query);
 						mysqli_stmt_execute($stmt);
-						//mysqli_stmt_store_result($stmt);
-						mysqli_stmt_bind_result($stmt, $upload_id,$format, $type, $course_id);
-						while (mysqli_stmt_fetch($stmt)) {
-								if ($count %2 == 0){
-									echo "<tr><td class=\"datacellone\">";
-								}
-								else{
-									echo "<tr><td class=\"datacelltwo\">";
-								}
-								echo "<a href=\"upload_page.php?upload_id=".$upload_id."\">";
-								echo $upload_id;
-								echo "</td>";
-								if ($count %2 == 0){
-									echo "<td class=\"datacelltwo\">";
-								}
-								else{
-									echo "<td class=\"datacellone\">";
-								}
-
-								echo $format;
-								echo "</td>";
-								if ($count %2 == 0){
-									echo "<td class=\"datacellone\">";
-								}
-								else{
-									echo "<td class=\"datacelltwo\">";
-								}
-
-								echo $type;
-								echo "</td>";
-								if ($count %2 == 0){
-									echo "<td class=\"datacelltwo\">";
-								}
-								else{
-									echo "<td class=\"datacellone\">";
-								}
-
-								echo $course_id;
-								echo "</a>";
-								echo "</td></tr>";
-								$count = $count + 1;
+						mysqli_stmt_store_result($stmt);
+						if(mysqli_stmt_num_rows($stmt) == 0){
+							echo "No Search Results";
 						}
-						?>
-						</table>
-					</div>
+						else{
+							mysqli_stmt_bind_result($stmt, $user_id, $user_name, $dept_name, $prog_name);
+							echo "<table border='0' id='list'>";
+							echo "<tr><th>User Name</th><th>Department Name</th><th>Program Name</th></tr>";
+							while (mysqli_stmt_fetch($stmt)) {
+									echo "<tr><td><a href='user_page.php?user_id=" . $user_id . "'>" . $user_name . "</a></td>";
+									echo "<td>" . $dept_name . "</td>";
+									echo "<td>" . $prog_name . "</td></tr>";
+							}
+							echo "</table>";
+						}
+					?>
+				</div>
+				
+				<div id="tabcontent4">
+					<!--SEARCH WITH NAME - NOT DONE-->
+					<?php
+						mysqli_stmt_prepare($stmt, "SELECT upload_id, format, type, course_id, user_id, user_name FROM Upload NATURAL JOIN Uploader NATURAL JOIN User WHERE lower(format) like ? OR lower(type) like ? OR lower(course_id) like ? OR lower(user_name) like ?");
+						mysqli_stmt_bind_param($stmt,'ssss', $search_query, $search_query, $search_query, $search_query);
+						mysqli_stmt_execute($stmt);
+						mysqli_stmt_store_result($stmt);
+						if(mysqli_stmt_num_rows($stmt) == 0){
+							echo "No Search Results";
+						}
+						else{
+							mysqli_stmt_bind_result($stmt, $upload_id, $format, $type, $course_id, $user_id, $user_name);
+							echo "<table border='0' id='list'>";
+							echo "<tr><th>Upload</th><th>Format</th><th>Type</th><th>Course Id</th><th>User Name</th></tr>";
+							while (mysqli_stmt_fetch($stmt)) {
+									echo "<tr><td><a href='upload_page.php?upload_id=" . $upload_id . "'>" . $upload_id . "</a></td>";
+									echo "<td>" . $format . "</td>";
+									echo "<td>" . $type . "</td>";
+									echo "<td><a href='course_page.php?course_id=" . $course_id . "'>" . $course_id . "</a></td>";
+									echo "<td><a href='user_page.php?user_id=" . $user_id . "'>" . $user_id . "</a></td></tr>";
+							}
+							echo "</table>";
+						}
+						mysqli_stmt_close($stmt);
+					?>
 				</div>
 			</div>
-			
-			
-			
 		</div>
 			<!-- footer code -->
 			<?php include("footer.php"); ?>

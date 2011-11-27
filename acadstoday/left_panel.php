@@ -2,7 +2,7 @@
 <div id="leftpanel">
 	<!-- retrieve the link of profile pic of user and then show that pic below -->
 	<table border="0" width="95%" id="leftlist">
-	<tr id="pic"><td><img src="" alt="profile pic"/></td></tr>
+	<tr><td class="pic"><img src="profile_pic/44553.gif" alt="profile_pic" width="175px" /></td></tr>
 		<?php
 			//$user_id = $_SESSION['uid'];   //use this actually
 			$user_id = '44553';
@@ -26,11 +26,6 @@
 			}
 			mysqli_stmt_close($stmt);
 		?>
-	<tr><td></td></tr>
-	<tr><td></td></tr>
-	<tr><td></td></tr>
-	<tr><td></td></tr>
-	<tr><td></td></tr>
 	<tr><td></td></tr>
 	<tr><td></td></tr>
 	<tr><th><a href="news.php">News</a></th></tr>

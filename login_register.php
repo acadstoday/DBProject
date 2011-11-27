@@ -1,7 +1,7 @@
 <?php
 session_start();
 require('err.php');
-include("db-connect.php");
+
 $timestamp = time()+19800;
 
 if(isset($_POST['ldap_id']))
@@ -23,7 +23,7 @@ if(isset($_POST['ldap_id']))
 		$err[] = 'Password missing';
 		$errflag = true;
 	}
-	err_chk('login.php');
+	err_chk('login_page.php');
     $lc = @ldap_connect("ldap.iitb.ac.in");
     if(!$lc) { 
         $err[] = "Connection error";
@@ -38,7 +38,7 @@ if(isset($_POST['ldap_id']))
     
     $base_dn = "ou=People,dc=iitb,dc=ac,dc=in";
     $filter = "uid=".$login;
-    $getThese = array("employeenumber","employeetype");
+    $getThese = array("employeenumber","employeetype","cn"); //'cn' -user's full name ;  
     $result = ldap_search($lc,$base_dn,$filter,$getThese );
     $info = ldap_get_entries($lc,$result);
     if(!$result) {
@@ -49,7 +49,7 @@ if(isset($_POST['ldap_id']))
 		$err[]= "Unknown user - please fill details again";
 		$errflag = true;
 	}
-	err_chk('login.php');
+	err_chk('login_page.php');
 	
 	$et=$info[0]["employeetype"][0];
 /*	if($et!="ug" || $et!="dd" || $et!="pg" || $et!="rs")
@@ -64,26 +64,32 @@ if(isset($_POST['ldap_id']))
         	
         	$err[]= "Wrong Username or password";
 			$errflag = true;
-			err_chk('login.php');
+			err_chk('login_page.php');
     	}
 	$roll=$info[0]["employeenumber"][0];
+	$user_name = $info[0]["cn"][0];
+	/*$usedids=fopen("datfiles/usedids.dat", 'r');
+    while(!feof($usedids))
+    {
+        if (trim(fgets($usedids))==$roll)
+        {
+            $err[]="This LDAP ID has been used once.";
+			$errflag=true;
+            fclose($usedids);
+			err_chk('login_page.php');
+        }
+    }*/
 
+	//these two session variables are always present [non null] when session active
 	$_SESSION['uid'] = $login;
-	$_SESSION['roll'] = $roll;
+	$_SESSION['user_name'] = $user_name;
 	
 	//enter a new user in the user table
-	//username same as ldap id, new password and date of joining
-	//forward user to his edit profile page
-	
-	$stmt = mysqli_stmt_init($con);
-	mysqli_stmt_prepare($stmt, "INSERT INTO User(user_name, password) VALUES (? , ?)") or die(mysqli_error());
-	mysqli_stmt_bind_param($stmt, 'ss', $login, $newpwd);
-	mysqli_stmt_execute($stmt);
-	mysqli_stmt_close($stmt);
-	
-	header("location:edit_profile.php");
+	//user_id same as ldap id($login), user_name as $user_name, new password and date of joining ; rest all attributes are null for the time being
+	//forward user to his edit profile page with $user_name [method get]
+
 }
-include("db-disconnect.php");
+
 //echo "Login ID : ".$_SESSION['uid']."<br />Roll No : ".$_SESSION['roll'];
 
 ?>

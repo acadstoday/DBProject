@@ -15,7 +15,7 @@
 				<h2>List of Instructors</h2>
 				<?php
 					$stmt = mysqli_stmt_init($con);
-					mysqli_stmt_prepare($stmt, "SELECT inst_id, inst_name, dept_name FROM Instructor") or die(mysqli_error());
+					mysqli_stmt_prepare($stmt, "SELECT inst_id, inst_name, dept_name FROM Instructor ORDER BY ") or die(mysqli_error());
 					mysqli_stmt_execute($stmt);
 					mysqli_stmt_store_result($stmt);
 					if(mysqli_stmt_num_rows($stmt) == 0){

@@ -7,6 +7,8 @@
 	<head>
 		<title>Home</title>
 		<?php include("header-head.php"); ?>
+		<script type="text/javascript" src="js/easytab_home.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/easytab_home.css" />
 		
 	</head>
 	<body>
@@ -16,32 +18,45 @@
 			<!-- header code -->
 			<?php include("header-body.php"); ?>
 			
-			<!-- left panel code -->
-			<?php include("left_panel.php"); ?>
-			
-			<!-- central area starts which is showing name and details of user and all notifications like FB wall -->
-			<div id="center">
-				<?php
-					echo "<h2>Welcome, " . $name . "</h2>"; 
-				?>
-				<h3>Wall</h3>
-				<div id="tabber2" class="tabber">
-					<div class="tabbertab" title="Courses">
-						<p>Tab 1 content.</p>
+			<div id="content">
+				<!-- left panel code -->
+				<?php include("left_panel.php"); ?>
+				
+				<!-- central area starts which is showing name and details of user and all notifications like FB wall -->
+				<div id="center">
+					<?php
+						echo "<h2>Welcome, " . $name . "</h2>"; 
+					?>
+					<h3>Wall</h3>
+					
+					<!--Start of the Tabmenu 1 -->
+					<div id="easytab1" class="menu">
+						<ul>
+							<li><a href="#" onmouseover="easytabs('1', '1');" onfocus="easytabs('1', '1');"  onclick="easytabs('1', '1');" title="" id="tablink1">Users</a></li>
+							<li><a href="#" onmouseover="easytabs('1', '2');" onfocus="easytabs('1', '2');"  onclick="easytabs('1', '2');" title="" id="tablink2">Instructors</a></li>
+							<li><a href="#" onmouseover="easytabs('1', '3');" onfocus="easytabs('1', '3');"  onclick="easytabs('1', '3');" title="" id="tablink3">Courses</a></li>
+						</ul>
 					</div>
-					<div class="tabbertab" title="Instructors">
-						<p>Tab 2 content.</p>
+					<div id="tabcontent1">
+						<?php
+						$test = 1;
+						while ($test < 60){
+							echo "user " . $test . "<br />";
+							$test += 1;
+						}
+						?>
 					</div>
-					<div class="tabbertab" title="Users">
-						<p>Tab 3 content.</p>
+					<div id="tabcontent2">
 					</div>
+					<div id="tabcontent3">
+					</div>
+					
 				</div>
+				<!-- central area ends-->
+				
+				<!-- right panel code -->
+				<?php include("right_panel.php"); ?>
 			</div>
-			<!-- central area ends-->
-			
-			<!-- right panel code -->
-			<?php include("right_panel.php"); ?>
-			
 			<div class="push"></div>
 		</div>
 			

@@ -2,6 +2,7 @@
 	<head>
 		<title>Title</title>
 		<?php include("header-head.php"); ?>
+
 	</head>
 	<body>
 		<div class="wrapper">
@@ -11,7 +12,7 @@
 			<?php include("header-body.php"); ?>
 			
 			
-			<!-- ***************** All Content Here **************** -->
+			<!-- ***************** All Content Here **************** -->		
 			
 			
 			<div class="push"></div>

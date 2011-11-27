@@ -54,7 +54,7 @@
 						</tr>
 						<tr>
 							<td>Project Desciption:</td>
-							<td><textarea name="project_desciption"></textarea></td>
+							<td><textarea name="project_desciption" rows="5" cols="50"></textarea></td>
 						</tr>
 						<tr>
 							<td>Start Date:</td>

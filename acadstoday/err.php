@@ -10,7 +10,7 @@
 			$_SESSION['ERR'] = $err;
 			session_write_close();
 			if(isset($con))
-			mysql_close($con);
+			mysqli_close($con);
 			header("location:$loc");
 			exit();
 		}

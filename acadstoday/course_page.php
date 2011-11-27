@@ -28,11 +28,8 @@ $course_rating_flag - 0 if user has not rated this course else user's rating
 
 <html>
 	<head>
-		<title>Title</title>
+		<title><?php $_GET['course_id'] ?></title>
 		<?php include("header-head.php"); ?>
-		<script type="text/javascript" src="js/tabber.js"></script>
-		<!-- <script type="text/javascript" src="js/tabber-minimized.js"></script> -->
-		<link rel="stylesheet" type="text/css" href="css/tabber.css" />
 		<!-- this css is for rating stars display -->
 		<style type="text/css">
 		<!--
@@ -62,20 +59,20 @@ $course_rating_flag - 0 if user has not rated this course else user's rating
 				
 				$course_id = $_GET['course_id'];
 
-				mysqli_stmt_prepare($stmt, "SELECT course_name, course_info, dept_name FROM course WHERE course_id = ?") or die(mysqli_error());
+				mysqli_stmt_prepare($stmt, "SELECT course_name, course_info, dept_name FROM Course WHERE course_id = ?") or die(mysqli_error());
 				mysqli_stmt_bind_param($stmt,'s', $course_id);
 				mysqli_stmt_execute($stmt);
 				mysqli_stmt_bind_result($stmt, $course_name, $course_info, $dept_name); 
 				while (mysqli_stmt_fetch($stmt)) {}
 
-				mysqli_stmt_prepare($stmt, "SELECT count(user_id) FROM course_rating WHERE course_id = ?") or die(mysqli_error());
+				mysqli_stmt_prepare($stmt, "SELECT count(user_id) FROM Course_Rating WHERE course_id = ?") or die(mysqli_error());
 				mysqli_stmt_bind_param($stmt,'s', $course_id);
 				mysqli_stmt_execute($stmt);
 				mysqli_stmt_bind_result($stmt, $votes); 
 				while (mysqli_stmt_fetch($stmt)) {}
 
 				if ($votes != 0){
-					mysqli_stmt_prepare($stmt, "SELECT avg(rating) FROM course_rating WHERE course_id = ?") or die(mysqli_error());
+					mysqli_stmt_prepare($stmt, "SELECT avg(rating) FROM Course_Rating WHERE course_id = ?") or die(mysqli_error());
 					mysqli_stmt_bind_param($stmt,'s', $course_id);
 					mysqli_stmt_execute($stmt);
 					mysqli_stmt_bind_result($stmt, $course_rating); 
@@ -86,53 +83,57 @@ $course_rating_flag - 0 if user has not rated this course else user's rating
 					$course_rating = 0.00;
 				}
 			?>
-			<div name="left" style="width:70%;float:left">
-			<p id="courseId" style="visibility:hidden"><?php echo $course_id ?></p>
-			<?php echo "<h1>$course_id : $course_name</h1>"; ?>
-			<?php echo "<h2>$dept_name</h2>"; ?>
-			<?php echo "<p>$course_info</p>"; ?> 
 			
-			<div class="restaurant-stars">
-				<div class="restaurant-stars-rating" title="rating" style="display:block; width:<?php echo $course_rating*50 ?>px; height:47px; background:url('images/colorStar.png') no-repeat;">              
-					&nbsp;
+			<div id="page">
+				<?php echo "<h2>" . $course_id . " : " . $course_name . "</h2>"; ?>
+				<?php echo "<h3>" . $dept_name . "</h3>"; ?>
+				<?php echo "<p>" . $course_info . "</p>"; ?>
+				
+				<div class="restaurant-stars">
+					<div class="restaurant-stars-rating" title="rating" style="display:block; width:<?php echo $course_rating*50 ?>px; height:47px; background:url('images/colorStar.png') no-repeat;">              
+						&nbsp;
+					</div><br/>
+					<center><?php echo $course_rating . " (" . $votes . " Votes)" ?></center>
 				</div>
-				<center><?php echo $course_rating." (".$votes." Votes)" ?></center>
-			</div>
 			
-			<?php $num_of_followers = 0; ?>
-			
-			<!-- ***************** All Content Here **************** -->
-			<div id="center">
-				<h3>PNA</h3>
-				<div class="tabber">
-					<div class="tabbertab" title="Comments">
-						<p>Tab 1 content.</p>
-					</div>
-					<div class="tabbertab" title="Uploads">
-						<p>Tab 2 content.</p>
-					</div>
-					<div class="tabbertab" title="Teachers">
-						<p>Tab 3 content.</p>
-					</div>
-					<div class="tabbertab" title="Projects">
-						<p>Tab 3 content.</p>
-					</div>
-					<div class="tabbertab" title="Prereq">
-						<p>Tab 3 content.</p>
-					</div>
-					<div class="tabbertab" title="Followers(<?php echo $num_of_followers?>)">
-						<p>Tab 3 content.</p>
+				<?php $num_of_followers = 0; ?>
+				
+				<!-- ***************** All Content Here **************** -->
+				<div id="center">
+					<h3>PNA</h3>
+					<div class="tabber">
+						<div class="tabbertab" title="Comments">
+							<p>Tab 1 content.</p>
+						</div>
+						<div class="tabbertab" title="Uploads">
+							<p>Tab 2 content.</p>
+						</div>
+						<div class="tabbertab" title="Teachers">
+							<p>Tab 3 content.</p>
+						</div>
+						<div class="tabbertab" title="Projects">
+							<p>Tab 3 content.</p>
+						</div>
+						<div class="tabbertab" title="Prereq">
+							<p>Tab 3 content.</p>
+						</div>
+						<div class="tabbertab" title="Followers(<?php echo $num_of_followers?>)">
+							<p>Tab 3 content.</p>
+						</div>
 					</div>
 				</div>
 			</div>
-			</div>
+			
+			
+			
+			
 			<div name="right"><br/><br/><br/><br/><br/><br/>
 				<center>
 				<!-- TAKEN -->
 				<!-- FOLLOW -->
 				<!-- RATING -->
 				<?php
-				mysqli_stmt_prepare($stmt, "SELECT rating FROM course_rating WHERE course_id = ? AND user_id = ?") or die(mysqli_error());
+				mysqli_stmt_prepare($stmt, "SELECT rating FROM Course_Rating WHERE course_id = ? AND user_id = ?") or die(mysqli_error());
 				$userid = 12345;//$_SESSION['user_id']);
 				mysqli_stmt_bind_param($stmt,'sd', $course_id,$userid);
 				mysqli_stmt_execute($stmt);
@@ -144,10 +145,10 @@ $course_rating_flag - 0 if user has not rated this course else user's rating
 				<input type="button" value="Rate" onclick="javascript:update_rating()"/>
 				<?php 
 				if ($course_rating_flag == 0) {
-						echo "<p id=\"rating_display\">You have not rated this course. </p>"; 
+						echo "<p id='rating_display'>You have not rated this course. </p>"; 
 				}
 				else{
-						echo "<p id=\"rating_display\">Your rating = $course_rating_flag</p>"; 
+						echo "<p id='rating_display'>Your rating = $course_rating_flag</p>"; 
 				}
 				?>
 				</center>
@@ -155,7 +156,7 @@ $course_rating_flag - 0 if user has not rated this course else user's rating
 			
 			<!-- ***************** All Content Here **************** -->
 			
-			
+			<div class="push"></div>
 		</div>
 			<!-- footer code -->
 			<?php include("footer.php"); ?>

@@ -1,3 +1,6 @@
+<?php
+require('err.php');
+?>
 <html>
 	<head>
 		<title>Add a Course</title>

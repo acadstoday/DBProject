@@ -20,14 +20,51 @@ a:hover, a:visited, a:link, a:active {
 /* css to stretch the page so that footer is always at the bottom */
 html, body {
 	height: 100%;
-	width: 80%;
+	width: 1200px;
 }
 
 .wrapper {
-	min-height: 100%;
+	min-height: 700px;
 	height: auto;
 	margin: 0 auto -4em;
 }
+
+
+/* content*/
+.content {
+	height:auto;
+}
+
+
+/* panels */
+#leftpanel {
+	float: left;
+	width: 200px;
+}
+#rightpanel {
+	padding-top: 0.5em;
+	float: right;
+	width: 300px;
+	/*height: auto;*/
+}
+#center {
+	width: 680px;
+	float: left;
+}
+
+.center {
+	width: 680px;
+	float: left;
+}
+
+.searchform {
+	padding-left: 1em;
+}
+
+
+
+
+
 
 .footer, .push {
 	height: 5em;
@@ -38,7 +75,9 @@ html, body {
 /* Footer Links */
 #footer {
 	border-top: 1px solid;
-	float: bottom;
+	/*float:left;*/
+	width:100%;
+	
 }
 #footer ul {
 	margin: 0.25em 0;
@@ -64,33 +103,9 @@ html, body {
 
 
 
-/* panels */
-#leftpanel {
-	float: left;
-	width: 200px;
-}
-#rightpanel {
-	padding-top: 0.5em;
-	float: right;
-	width: 300px;
-}
-#center {
-	width: 680px;
-	float: left;
-}
-
-.center {
-	width: 680px;
-	float: left;
-}
-
-.searchform {
-	padding-left: 1em;
-}
-
 
 /* main forms on add pages (add project, add course etc.) */
-.leftPad {
+.leftpad {
 	padding-left: 2em;
 }
 
@@ -147,7 +162,12 @@ html, body {
 	text-align:left;
 	padding:15px;
 	padding-left:5px;
-	
+}
+
+#leftlist td.pic
+{
+	padding:0px 1px 1x 0px;
+	float:left;
 }
 
 /* table of add project */
@@ -184,4 +204,12 @@ html, body {
 .smalltext
 {
 	font-size:12px;
+}
+
+/* course page */
+#page
+{
+	width:70%;
+	float:left;
+	padding-left: 2em;
 }
