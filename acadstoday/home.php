@@ -45,9 +45,9 @@
 							mysqli_stmt_bind_result($stmt, $name, $gender, $dept);
 							/* fetch value */
 							while ( mysqli_stmt_fetch($stmt) ) {
-								echo "<tr><td>Name: " . $name . "</td></tr>";
+								/*echo "<tr><td>Name: " . $name . "</td></tr>";
 								echo "<tr><td>Gender: " . $gender . "</td></tr>";
-								echo "<tr><td>Department: " . $dept . "</td></tr>";
+								echo "<tr><td>Department: " . $dept . "</td></tr>";*/
 							}
 						}
 						mysqli_stmt_close($stmt);
@@ -66,8 +66,11 @@
 			
 			<!-- central area starts which is showing name and details of user and all notifications like FB wall -->
 			<div id="center">
+				<?php
+					echo "<h2>Welcome, " . $name . "</h2>"; 
+				?>
 				<h3>Wall</h3>
-				<div class="tabber">
+				<div id="tabber2" class="tabber">
 					<div class="tabbertab" title="Courses">
 						<p>Tab 1 content.</p>
 					</div>
@@ -87,9 +90,8 @@
 					<input class="searchfield" type="text" value="Search Here" onfocus="if (this.value == 'Search Here') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search Here';}" />
 					<input class="searchbutton" type="button" value="Go" />
 				</form>
-				
 				<h3>Follower Lists</h3>
-				<div class="tabber">
+				<div id="tabber2" class="tabber">
 					<div class="tabbertab" title="Users">
 						<?php
 							//$user_id = $_SESSION['uid'];   //use this actually
@@ -101,7 +103,7 @@
 							mysqli_stmt_store_result($stmt);
 							if(mysqli_stmt_num_rows($stmt) == '0'){
 								echo "You Don't follow any Users";
-								echo "Follow new users <a href='user_list.php'>Here</a>";
+								echo "<br/>Follow new users <a href='user_list.php'>Here</a>";
 							}
 							else{
 								/* bind result variables */
@@ -112,7 +114,7 @@
 									echo "<li>" . $name . "</li>";
 								}
 								echo "</ui>";
-								echo "Follow more users <a href='user_list.php'>Here</a>";
+								echo "<br/>Follow more users <a href='user_list.php'>Here</a>";
 							}
 							mysqli_stmt_close($stmt);
 						?>
@@ -128,7 +130,7 @@
 							mysqli_stmt_store_result($stmt);
 							if(mysqli_stmt_num_rows($stmt) == '0'){
 								echo "You Don't follow any Instructors";
-								echo "Follow new instructors <a href='instructor_list.php'>Here</a>";
+								echo "<br/>Follow new instructors <a href='instructor_list.php'>Here</a>";
 							}
 							else{
 								/* bind result variables */
@@ -139,7 +141,7 @@
 									echo "<li>" . $name . "</li>";
 								}
 								echo "</ui>";
-								echo "Follow more instructors <a href='instructor_list.php'>Here</a>";
+								echo "<br/>Follow more instructors <a href='instructor_list.php'>Here</a>";
 							}
 							mysqli_stmt_close($stmt);
 						?>
@@ -155,7 +157,7 @@
 							mysqli_stmt_store_result($stmt);
 							if(mysqli_stmt_num_rows($stmt) == '0'){
 								echo "You Don't follow any Courses";
-								echo "Follow new courses <a href='course_list.php'>Here</a>";
+								echo "<br/>Follow new courses <a href='course_list.php'>Here</a>";
 							}
 							else{
 								/* bind result variables */
@@ -166,7 +168,7 @@
 									echo "<li>" . $name . "</li>";
 								}
 								echo "</ui>";
-								echo "Follow more courses <a href='course_list.php'>Here</a>";
+								echo "<br/>Follow more courses <a href='course_list.php'>Here</a>";
 							}
 							mysqli_stmt_close($stmt);
 						?>
