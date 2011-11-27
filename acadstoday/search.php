@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Title</title>
+		<title>Search Results of '<?php echo $_GET["search_text"]; ?>'</title>
 		<?php include("header-head.php"); ?>
 		
 		<script type="text/javascript" src="js/tabber.js"></script>

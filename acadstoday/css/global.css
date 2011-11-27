@@ -74,6 +74,11 @@ html, body {
 	float: left;
 }
 
+.center {
+	width: 680px;
+	float: left;
+}
+
 .searchform {
 	padding-left: 1em;
 }

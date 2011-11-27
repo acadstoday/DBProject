@@ -9,6 +9,7 @@
 			<?php include("db-connect.php"); ?>
 			<!-- header code -->
 			<?php include("header-body.php"); ?>
+			
 			<div id="list" class="leftpad">
 				<h2>List of Users</h2>
 				<?php
@@ -37,8 +38,9 @@
 					mysqli_stmt_close($stmt);
 				?>
 			</div>
-			<div class="push"></div>
 			
+			
+			<div class="push"></div>
 		</div>
 			<!-- footer code -->
 			<?php include("footer.php"); ?>

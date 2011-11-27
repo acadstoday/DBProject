@@ -6,3 +6,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/header.js"></script>
+<link rel="stylesheet" type="text/css" href="css/home.css" />
+<script type="text/javascript" src="js/tabber.js"></script>
+<!-- <script type="text/javascript" src="js/tabber-minimized.js"></script> -->
+<link rel="stylesheet" type="text/css" href="css/tabber.css" />
