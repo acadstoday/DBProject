@@ -160,3 +160,18 @@ html, body {
     float:left;
     padding-left:2em;
 }
+
+
+/* news page */
+.newsitem
+{
+	background-color:#b0c4de;
+	margin:0 10px 10px 0;
+	padding:10px 10px 0.5px 15px;
+	
+}
+
+.smalltext
+{
+	font-size:12px;
+}

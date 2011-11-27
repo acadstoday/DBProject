@@ -14,27 +14,23 @@
 				<h2>News</h2>
 				<?php
 					$stmt = mysqli_stmt_init($con);
-					mysqli_stmt_prepare($stmt, "SELECT user_id, news, tags, date FROM News ORDER BY date DESC") or die(mysqli_error());
+					mysqli_stmt_prepare($stmt, "SELECT user_name, news, tags, time_stamp FROM News NATURAL JOIN User ORDER BY time_stamp DESC") or die(mysqli_error());
 					mysqli_stmt_execute($stmt);
 					mysqli_stmt_store_result($stmt);
 					if(mysqli_stmt_num_rows($stmt) == 0){
-						echo "Currently No Users to follow";
+						echo "Currently No News to Show";
 					}
 					else{
 						/* bind result variables */
-						mysqli_stmt_bind_result($stmt, $user_name, $dept_name, $prog_name);
+						mysqli_stmt_bind_result($stmt, $user_name, $news, $tags, $timestamp);
 						/* fetch value */
-						/*echo "<table border='0'>";
-						echo "<tr><th>User Name</th><th>Department Name</th><th>Program Name</th></tr>";
 						while ( mysqli_stmt_fetch($stmt) ) {
-							echo "<tr>";
-							echo "<td>" . $user_name . "</td>";
-							echo "<td>" . $dept_name . "</td>";
-							echo "<td>" . $prog_name . "</td>";
-							echo "</tr>";
+							echo "<div class='newsitem'><div class='news'>" . $news . "</div><div>";
+							echo "<p class='smalltext'><i>tags</i> " . $tags . "<br />";
+							echo "<i>by</i> " . $user_name . " <i>on</i> " . $timestamp . "</p>";
+							echo "</div></div>";
 						}
-						echo "</table>";
-					*/}
+					}
 					mysqli_stmt_close($stmt);
 				?>
 			</div>
