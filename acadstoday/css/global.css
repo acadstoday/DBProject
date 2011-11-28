@@ -147,6 +147,7 @@ html, body {
 	background-color:#b0c4de;
 	padding:5px;
 	padding-left:10px;
+	margin-bottom:2em;
 }
 
 #leftlist td
@@ -206,10 +207,79 @@ html, body {
 	font-size:12px;
 }
 
+/* comments */
+.commentbox
+{
+	background-color:#b0c4de;
+	margin:0 10px 10px 0;
+	padding:10px 10px 0.5px 15px;
+	
+}
+
+
+
+
 /* course page */
 #page
 {
 	width:70%;
 	float:left;
 	padding-left: 2em;
+}
+
+#wall
+{
+	padding-top:4em;
+}
+
+#sidebar
+{
+	width:27%;
+	float:left;
+	padding-top:2em;
+}
+
+/*for right table in course pages etc. */
+#rightlist a
+{
+	text-decoration:none;
+}
+
+#rightlist th
+{
+	text-align:left;
+	background-color:#b0c4de;
+	padding:10px;
+	padding-left:15px;
+	margin-bottom:2em;
+}
+
+#rightlist td
+{
+	text-align:left;
+}
+
+
+/* list of followers on course, user, instructor page */
+.follow_block
+{
+	float:left;
+	background-color:#b0c4de;
+	padding:10px;
+	margin: 10px;
+	
+}
+
+.follow_pic
+{
+	float:left;
+	padding:5px;
+	margin:5px;
+}
+
+.follow_text
+{
+	float:left;
+	padding:5px;
+	margin:5px;
 }

@@ -6,5 +6,5 @@
 .menu li {display:inline; line-height:23px;}
 .menu li a {color:#000000; text-decoration:none; padding:5px 5px 6px 5px; }
 .menu li a.tabactive {border-left:1px solid #d7d7d7; border-right:1px solid #d7d7d7; color:#000000; background-color:#ffffff; font-weight:bold; position:relative;}
-#tabcontent1,#tabcontent2,#tabcontent3{border:1px solid #ececec; max-height:400px; overflow:auto; width:630px; text-align:left; padding:10px 15px; margin-bottom:5px;}
-#anothercontent1,#anothercontent2, #anothercontent3{border:1px solid #ececec; width:250px; max-height:387px; overflow:auto; text-align:left;padding:10px 15px; margin-bottom:5px;}
+#tabcontent1,#tabcontent2,#tabcontent3{border:1px solid #ececec; max-height:400px; overflow:auto; width:628px; text-align:left; padding:10px 15px; margin-bottom:5px;}
+#anothercontent1,#anothercontent2, #anothercontent3{border:1px solid #ececec; width:248px; max-height:387px; overflow:auto; text-align:left;padding:10px 15px; margin-bottom:5px;}

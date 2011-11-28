@@ -70,7 +70,7 @@ CREATE TABLE Teaches
 
 CREATE TABLE User
 (
-	user_id VARCHAR(15), 
+	user_id INT(10) UNSIGNED AUTO_INCREMENT UNIQUE, 
 	user_name VARCHAR(20) NOT NULL, 
 	password VARCHAR(15),
 	dept_name VARCHAR(50),

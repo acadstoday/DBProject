@@ -51,7 +51,7 @@
 				
 				<div id="tabcontent2">
 					<?php
-						mysqli_stmt_prepare($stmt, "SELECT inst_id,inst_name, dept_name FROM Instructor WHERE lower(inst_name) like ? OR lower(dept_name) like ?") or die(mysqli_error());
+						mysqli_stmt_prepare($stmt, "SELECT inst_id, inst_name, dept_name FROM Instructor WHERE lower(inst_name) like ? OR lower(dept_name) like ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'ss', $search_query, $search_query);
 						mysqli_stmt_execute($stmt);
 						mysqli_stmt_store_result($stmt);
@@ -95,21 +95,21 @@
 				</div>
 				
 				<div id="tabcontent4">
-					<!--SEARCH WITH NAME - NOT DONE-->
 					<?php
-						mysqli_stmt_prepare($stmt, "SELECT upload_id, format, type, course_id, user_id, user_name FROM Upload NATURAL JOIN Uploader NATURAL JOIN User WHERE lower(format) like ? OR lower(type) like ? OR lower(course_id) like ? OR lower(user_name) like ?");
-						mysqli_stmt_bind_param($stmt,'ssss', $search_query, $search_query, $search_query, $search_query);
+						mysqli_stmt_prepare($stmt, "SELECT upload_id, upload_title, upload_info, format, type, course_id, user_id, user_name FROM Upload  NATURAL JOIN User WHERE lower(format) like ? OR lower(type) like ? OR lower(course_id) like ? OR lower(user_name) like ? OR lower(upload_title) like ? OR lower(upload_info) like ?");
+						mysqli_stmt_bind_param($stmt,'ssssss', $search_query, $search_query, $search_query, $search_query, $search_query, $search_query);
 						mysqli_stmt_execute($stmt);
 						mysqli_stmt_store_result($stmt);
 						if(mysqli_stmt_num_rows($stmt) == 0){
 							echo "No Search Results";
 						}
 						else{
-							mysqli_stmt_bind_result($stmt, $upload_id, $format, $type, $course_id, $user_id, $user_name);
+							mysqli_stmt_bind_result($stmt, $upload_id, $upload_title, $upload_info, $format, $type, $course_id, $user_id, $user_name);
 							echo "<table border='0' id='list'>";
-							echo "<tr><th>Upload</th><th>Format</th><th>Type</th><th>Course Id</th><th>User Name</th></tr>";
+							echo "<tr><th>Upload</th><th>Details</th><th>Format</th><th>Type</th><th>Course Id</th><th>User Name</th></tr>";
 							while (mysqli_stmt_fetch($stmt)) {
-									echo "<tr><td><a href='upload_page.php?upload_id=" . $upload_id . "'>" . $upload_id . "</a></td>";
+									echo "<tr><td><a href='upload_page.php?upload_id=" . $upload_id . "'>" . $upload_title . "</a></td>";
+									echo "<td>" . $upload_info . "</td>";
 									echo "<td>" . $format . "</td>";
 									echo "<td>" . $type . "</td>";
 									echo "<td><a href='course_page.php?course_id=" . $course_id . "'>" . $course_id . "</a></td>";
