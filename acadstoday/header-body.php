@@ -12,10 +12,9 @@
 						<fieldset>
 							<!-- insert the appropriate links here -->
 							<!-- we may have to reorder the below list or add/remove links-->
-							<a href="#">Edit Profile</a><br/>
+							<a href="edit_profile_page.php">Edit Profile</a><br/>
 							<a href="add_course.php">Add Course</a><br/>
 							<a href="add_project.php">Add Project</a><br/>
-							<a href="#">Account Settings</a><br/>
 						</fieldset>
 						<input type="button" id="login" value="Log Out" onclick="location.href='logout.php'" />
 					</fieldset>

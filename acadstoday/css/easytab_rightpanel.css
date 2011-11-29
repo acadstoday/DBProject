@@ -1,8 +1,8 @@
-#easytab1.menu {background-color:#b0c4de;border-bottom:1px solid #d7d7d7; height:23px;width:660px;}
-#easytab2.menu {background-color:#b0c4de;border-bottom:1px solid #d7d7d7; height:23px;width:280px;}
+/*body {font-family:Arial, Helvetica, sans-serif;}
+/*Example for a Menu Style*/
+.menu {background-color:#b0c4de;border-bottom:1px solid #d7d7d7; height:23px;width:280px;}
 .menu ul {margin:0px; padding:0px; list-style:none; text-align:left;}
 .menu li {display:inline; line-height:23px;}
 .menu li a {color:#000000; text-decoration:none; padding:5px 5px 6px 5px; }
 .menu li a.tabactive {border-left:1px solid #d7d7d7; border-right:1px solid #d7d7d7; color:#000000; background-color:#ffffff; font-weight:bold; position:relative;}
-#tabcontent1,#tabcontent2,#tabcontent3,#tabcontent4{border:1px solid #ececec; max-height:430px; overflow:auto; width:628px; text-align:left; padding:10px 15px; margin-bottom:5px;}
 #anothercontent1,#anothercontent2, #anothercontent3{border:1px solid #ececec; width:248px; max-height:387px; overflow:auto; text-align:left;padding:10px 15px; margin-bottom:5px;}

@@ -11,7 +11,7 @@ require('err.php');
 		<link rel="stylesheet" type="text/css" href="css/header.css" />
 	</head>
 	<body>
-		<div class="wrapper">
+		<div class="wrapper" style="min-height:600px;">
 			<div id="content">
 				<div><h1>AcadsToday</h1></div>
 				<div class="desc">

@@ -1,37 +1,16 @@
 <?php 
-//given course_id in $_GET
-
-/*write queries to get the following details in the given variables
-$course_id = $_GET['course_id'] #
-$course_name #
-$course_dept #
-$course_info #
-$course_rating #
-$votes # //number of people who have rated
-
-*below details will be displayed in tabs
-$course_teachers [array]
-$course_uploads [array]
-$course_comments [array]
-$course_projects [array]
-$course_prereqs [array]
-$course_followers [array]
-$num_of_followers
-
-*flags
-$couse_taken_flag - 1 if user has taken this course else 0
-$course_follow_flag - 1 if user is following this course else 0
-$course_rating_flag - 0 if user has not rated this course else user's rating
-*/
-
 $course_id = $_GET['course_id'];
 /*$uid = $_SESSION['uid'];*/
 $uid = '7';
+$num_of_followers = 0;
+$num_of_projects = 0;
+$num_of_uploads = 0;
+$num_of_comments = 0;
 ?>
 
 <html>
 	<head>
-		<title><?php $course_id ?></title>
+		<title><?php echo $course_id ?>'s Page</title>
 		<?php include("header-head.php"); ?>
 		<!-- this css is for rating stars display -->
 		<style type="text/css">
@@ -39,16 +18,6 @@ $uid = '7';
 		.restaurant-stars { display:block; width:250px; height:47px; background:url('images/blankStar.png') no-repeat; }
 		-->
 		</style>
-		<script type="text/javascript">
-			function set_rating(new_rating){
-				document.getElementById('rating_display').innerHTML = "Your rating = " + new_rating;
-			}
-			function update_rating(){
-				<!--
-				window.location = "update_rating.php?new_rating=" + document.getElementById('rating_select').value + "&course_id=" + document.getElementById('courseId').innerHTML;
-				//-->
-			}
-		</script>
 		<script type="text/javascript" src="js/easytab_course.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/easytab_course.css" />
 	</head>
@@ -97,22 +66,51 @@ $uid = '7';
 					$num_of_followers += 1;
 				}
 				
-				mysqli_stmt_prepare($stmt, "SELECT count(comments) FROM Course_Comments WHERE course_id = ?") or die(mysqli_error());
+				mysqli_stmt_prepare($stmt, "SELECT count(comment) FROM Course_Comments WHERE course_id = ?") or die(mysqli_error());
 				mysqli_stmt_bind_param($stmt,'s', $course_id);
 				mysqli_stmt_execute($stmt);
 				mysqli_stmt_bind_result($stmt, $num_of_comments);
 				while (mysqli_stmt_fetch($stmt)) {}
 				
-				mysqli_stmt_prepare($stmt, "SELECT count(project_id) FROM Project WHERE course_id = ?") or die(mysqli_error());
+				mysqli_stmt_prepare($stmt, "SELECT count(DISTINCT project_id) FROM Project WHERE course_id = ?") or die(mysqli_error());
 				mysqli_stmt_bind_param($stmt,'s', $course_id);
 				mysqli_stmt_execute($stmt);
 				mysqli_stmt_bind_result($stmt, $num_of_projects);
 				while (mysqli_stmt_fetch($stmt)) {}
 				
-				mysqli_stmt_prepare($stmt, "SELECT count(project_id) FROM Course_Comments WHERE course_id = ?") or die(mysqli_error());
+				mysqli_stmt_prepare($stmt, "SELECT count(upload_id) FROM Upload WHERE course_id = ?") or die(mysqli_error());
 				mysqli_stmt_bind_param($stmt,'s', $course_id);
 				mysqli_stmt_execute($stmt);
-				mysqli_stmt_bind_result($stmt, $num_of_projects);
+				mysqli_stmt_bind_result($stmt, $num_of_uploads);
+				while (mysqli_stmt_fetch($stmt)) {}
+				
+				mysqli_stmt_prepare($stmt, "SELECT course_id FROM Takes WHERE course_id = ? AND user_id = ?") or die(mysqli_error());
+				mysqli_stmt_bind_param($stmt,'si', $course_id, $uid);
+				mysqli_stmt_execute($stmt);
+				mysqli_stmt_store_result($stmt);
+				if(mysqli_stmt_num_rows($stmt) == 0){
+					$course_taken_flag = 0;
+				}
+				else{
+					$course_taken_flag = 1;
+				}
+				
+				mysqli_stmt_prepare($stmt, "SELECT course_id FROM Course_Follow WHERE course_id = ? AND user_id = ?") or die(mysqli_error());
+				mysqli_stmt_bind_param($stmt,'si', $course_id, $uid);
+				mysqli_stmt_execute($stmt);
+				mysqli_stmt_store_result($stmt);
+				if(mysqli_stmt_num_rows($stmt) == 0){
+					$course_follow_flag = 0;
+				}
+				else{
+					$course_follow_flag = 1;
+				}
+				
+				mysqli_stmt_prepare($stmt, "SELECT rating FROM Course_Rating WHERE course_id = ? AND user_id = ?") or die(mysqli_error());
+				mysqli_stmt_bind_param($stmt,'si', $course_id, $uid);
+				mysqli_stmt_execute($stmt);
+				mysqli_stmt_bind_result($stmt, $course_rating_flag); 
+				$course_rating_flag = 0;
 				while (mysqli_stmt_fetch($stmt)) {}
 			?>
 			
@@ -130,80 +128,101 @@ $uid = '7';
 				<div id="wall">
 					<div id="easytab1" class="menu">
 						<ul>
-							<li><a href="#" onmouseover="easytabs('1', '1');" onfocus="easytabs('1', '1');"  onclick="easytabs('1', '1');" title="" id="tablink1">Comments</a></li>
-							<li><a href="#" onmouseover="easytabs('1', '2');" onfocus="easytabs('1', '2');"  onclick="easytabs('1', '2');" title="" id="tablink2">Uploads</a></li>
-							<li><a href="#" onmouseover="easytabs('1', '3');" onfocus="easytabs('1', '3');"  onclick="easytabs('1', '3');" title="" id="tablink3">Projects</a></li>
-							<li><a href="#" onmouseover="easytabs('1', '4');" onfocus="easytabs('1', '4');"  onclick="easytabs('1', '4');" title="" id="tablink4">Followers(<?php echo $num_of_followers?>)</a></li>
+							<li><a href="#" onmouseover="easytabs('1', '1');" onfocus="easytabs('1', '1');"  onclick="easytabs('1', '1');" title="" id="tablink1">Comments(<?php echo $num_of_comments ?>)</a></li>
+							<li><a href="#" onmouseover="easytabs('1', '2');" onfocus="easytabs('1', '2');"  onclick="easytabs('1', '2');" title="" id="tablink2">Uploads(<?php echo $num_of_uploads ?>)</a></li>
+							<li><a href="#" onmouseover="easytabs('1', '3');" onfocus="easytabs('1', '3');"  onclick="easytabs('1', '3');" title="" id="tablink3">Projects(<?php echo $num_of_projects ?>)</a></li>
+							<li><a href="#" onmouseover="easytabs('1', '4');" onfocus="easytabs('1', '4');"  onclick="easytabs('1', '4');" title="" id="tablink4">Followers(<?php echo $num_of_followers ?>)</a></li>
 						</ul>
 					</div>
 					<div id="tabcontent1">
 						<?php
-							mysqli_stmt_prepare($stmt, "SELECT user_id, user_name, comment, time_stamp FROM Course_Comments NATURAL JOIN User ORDER BY time_stamp DESC") or die(mysqli_error());
+							mysqli_stmt_prepare($stmt, "SELECT comment_id, user_id, user_name, comment, time_stamp FROM Course_Comments NATURAL JOIN User WHERE course_id = ? ORDER BY time_stamp DESC") or die(mysqli_error());
+							mysqli_stmt_bind_param($stmt,'s', $course_id);
 							mysqli_stmt_execute($stmt);
 							mysqli_stmt_store_result($stmt);
 							if(mysqli_stmt_num_rows($stmt) == 0){
 								echo "Currently No Comments to Show";
 							}
 							else{
-								/* bind result variables */
-								mysqli_stmt_bind_result($stmt, $user_id, $user_name, $comment, $timestamp);
-								/* fetch value */
+								mysqli_stmt_bind_result($stmt, $comment_id, $user_id, $user_name, $comment, $timestamp);
 								while ( mysqli_stmt_fetch($stmt) ) {
-									echo "<div class='commentbox'><p><a href='user_page.php?user_id=" . $user_id . "> " . $user_name . "</a></p>";
-									echo "<p>" . $comment . "</p>";/*
-									echo "<p class='smalltext'><i>on</i>" . $timestamp . "</p>";*/
+									echo "<div class='commentbox'>";
+									if ($user_id == $uid){
+										echo "<a href='delete_comment.php?type=course&id=" . $course_id . "&comment_id=" . $comment_id . "'><img src='images/close_x.png' class='delete-comment' alt='delete' /></a>";
+									}
+									echo "<p><a href='user_page.php?user_id=" . $user_id . "'> " . $user_name . "</a> wrote:</br>";
+									echo "" . $comment . "</p>";
+									echo "<p class='smalltext'><i>on</i> " . $timestamp . "</p>";
+									echo "</div>";
+									
+								}
+							}
+						?>
+					</div>
+					<div id="tabcontent2">
+						<?php
+							mysqli_stmt_prepare($stmt, "SELECT upload_title FROM Upload WHERE course_id = ?") or die(mysqli_error());
+							mysqli_stmt_bind_param($stmt,'s', $course_id);
+							mysqli_stmt_execute($stmt);
+							mysqli_stmt_store_result($stmt);
+							if(mysqli_stmt_num_rows($stmt) == 0){
+								echo "Currently No uploads to Show";
+							}
+							else{
+								mysqli_stmt_bind_result($stmt, $title, $timestamp);
+								while ( mysqli_stmt_fetch($stmt) ) {
+									echo "<div><p>Title: " . $title . "</p>";
+									echo "<p>time : " . $timestamp . "</p>";
 									echo "</div>";
 								}
 							}
 						?>
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-					</div>
-					<div id="tabcontent2">
 					</div>
 					<div id="tabcontent3">
+						<?php
+							mysqli_stmt_prepare($stmt, "SELECT topic, project_info FROM Project WHERE course_id = ? ") or die(mysqli_error());
+							mysqli_stmt_bind_param($stmt,'s', $course_id);
+							mysqli_stmt_execute($stmt);
+							mysqli_stmt_store_result($stmt);
+							if(mysqli_stmt_num_rows($stmt) == 0){
+								echo "Currently No Projects to Show";
+							}
+							else{
+								mysqli_stmt_bind_result($stmt, $topic, $info);
+								while ( mysqli_stmt_fetch($stmt) ) {
+									echo "<div class='projectbox'><p><b>Topic</b> : " . $topic . "</br>";
+									echo "<b>Info</b> : " . $info . "</p></div>";
+								}
+							}
+						?>
 					</div>
 					<div id="tabcontent4">
 						<?php
-							foreach ($course_followers as $follower_id) {
-								mysqli_stmt_prepare($stmt, "SELECT user_name, dept_name, prog_name, profile_pic FROM User WHERE user_id = ?") or die(mysqli_error());
-								mysqli_stmt_bind_param($stmt,'i', $follower_id);
-								mysqli_stmt_execute($stmt);
-								mysqli_stmt_store_result($stmt);
-								if(mysqli_stmt_num_rows($stmt) == 0){
-									echo "<div>No Search Results</div>";
-								}
-								else{
-									mysqli_stmt_bind_result($stmt, $user, $dept, $prog, $pic);
-									echo "<div>";
-									while (mysqli_stmt_fetch($stmt)) {
-										echo "<div class='follow_block'><div class='follow_pic'>";
-										echo "<img src='user/" . $follower_id . "/" . $pic . "' alt='pic missing' width='75px' />";
-										echo "</div><div class='follow_text'>";
-										echo "<a href='user_page.php?user_id=" . $follower_id . "'>" . $user . "</a><br/>";
-										echo "<p class='smalltext'>Dept :" . $dept . "</br>";
-										echo "Program :" . $prog . "</p></br></div></div>";
+							if ($num_of_followers == 0){
+								echo "Currently No Followers to Show";
+							}
+							else{
+								foreach ($course_followers as $follower_id) {
+									mysqli_stmt_prepare($stmt, "SELECT user_name, dept_name, prog_name, profile_pic FROM User WHERE user_id = ?") or die(mysqli_error());
+									mysqli_stmt_bind_param($stmt,'i', $follower_id);
+									mysqli_stmt_execute($stmt);
+									mysqli_stmt_store_result($stmt);
+									if(mysqli_stmt_num_rows($stmt) == 0){
+										echo "<div class='follow_block'>Error in retrieving the follower details</div>";
 									}
-									echo "</div>";
+									else{
+										mysqli_stmt_bind_result($stmt, $user, $dept, $prog, $pic);
+										echo "<div>";
+										while (mysqli_stmt_fetch($stmt)) {
+											echo "<div class='follow_block'><div class='follow_pic'>";
+											echo "<img src='user/" . $follower_id . "/" . $pic . "' alt='pic missing' width='75px' />";
+											echo "</div><div class='follow_text'>";
+											echo "<a href='user_page.php?user_id=" . $follower_id . "'>" . $user . "</a><br/>";
+											echo "<p class='smalltext'>Dept : " . $dept . "</br>";
+											echo "Program : " . $prog . "</p></div></div>";
+										}
+										echo "</div>";
+									}
 								}
 							}
 						?>
@@ -211,84 +230,56 @@ $uid = '7';
 				</div>
 			</div>
 			
-			
-			
-			
 			<div id="sidebar">
 				<table border="0" id="rightlist">
 				<?php
-					mysqli_stmt_prepare($stmt, "SELECT course_id FROM Takes WHERE course_id = ? AND user_id = ?") or die(mysqli_error());
-					mysqli_stmt_bind_param($stmt,'si', $course_id, $uid);
-					mysqli_stmt_execute($stmt);
-					mysqli_stmt_store_result($stmt);
-					if(mysqli_stmt_num_rows($stmt) == 0){
-						$course_taken_flag = 0;
-					}
-					else{
-						$course_taken_flag = 1;
-					}
-					while (mysqli_stmt_fetch($stmt)) {}
 					if ($course_taken_flag == 1) {
-						echo "<tr><th><a href=drop_course.php?course_id=" . $course_id . ">Drop</a> this course</th></th>"; 
+						echo "<tr><th><a href=processing_course.php?course_id=" . $course_id . "&action=drop>Drop</a> this course</th></tr>"; 
 					}
 					else {
-						echo "<tr><th><a href=take_course.php?course_id=" . $course_id . ">Take</a> this course</th></th>";
+						echo "<tr><th><a href=processing_course.php?course_id=" . $course_id . "&action=take>Take</a> this course</th></tr>";
 					}
 				?>
 				<?php
-					mysqli_stmt_prepare($stmt, "SELECT course_id FROM Course_Follow WHERE course_id = ? AND user_id = ?") or die(mysqli_error());
-					$userid = 12345;//$_SESSION['uid']);
-					mysqli_stmt_bind_param($stmt,'sd', $course_id, $userid);
-					mysqli_stmt_execute($stmt);
-					mysqli_stmt_store_result($stmt);
-					if(mysqli_stmt_num_rows($stmt) == 0){
-						$course_follow_flag = 0;
-					}
-					else{
-						$course_follow_flag = 1;
-					}
-					while (mysqli_stmt_fetch($stmt)) {}
 					if ($course_follow_flag == 1) {
-						echo "<tr><th><a href=unfollow_course.php?course_id=" . $course_id . ">Unfollow</a> this course</th></th>"; 
+						echo "<tr><th><a href=processing_course.php?course_id=" . $course_id . "&action=unfollow>Unfollow</a> this course</th></tr>"; 
 					}
 					else {
-						echo "<tr><th><a href=follow_course.php?course_id=" . $course_id . ">Follow</a> this course</th></th>";
+						echo "<tr><th><a href=processing_course.php?course_id=" . $course_id . "&action=follow>Follow</a> this course</th></tr>";
 					}
 				?>
 				<?php
-					echo "<tr><th><a href=upload.php?course_id=" . $course_id . ">Upload</a> some material</th></th>";
+					echo "<tr><th><a href=upload.php?course_id=" . $course_id . ">Upload</a> some material</th></tr>";
 				?>
 				<?php
-					mysqli_stmt_prepare($stmt, "SELECT rating FROM Course_Rating WHERE course_id = ? AND user_id = ?") or die(mysqli_error());
-					$userid = 12345;//$_SESSION['uid']);
-					mysqli_stmt_bind_param($stmt,'sd', $course_id, $userid);
-					mysqli_stmt_execute($stmt);
-					mysqli_stmt_bind_result($stmt, $course_rating_flag); 
-					$course_rating_flag = 0;
-					while (mysqli_stmt_fetch($stmt)) {}
 					if ($course_rating_flag != 0) {
-						echo "<tr><th><p id='rating_display'>Your rating : " . $course_rating_flag . "</p></th></th>"; 
+						echo "<tr><th><p>Your rating : " . $course_rating_flag . "</p></th></tr>"; 
 					}
 					else {
 				?>
 					<tr><th>
-						Rate The Course : 
-						<select id="rating_select" value="5">
-							<option>5</option>
-							<option>4</option>
-							<option>3</option>
-							<option>2</option>
-							<option>1</option>
-						</select>
-					<!--<input type="range"  min="1" max="5" id="rating_select" value = "<?php if ($course_rating_flag != 0) echo $course_rating_flag;?>" onchange="javascript:set_rating(this.value)"/>-->
-					<input type="button" value="Rate" onclick="javascript:update_rating()"/>
+						<form action="update_rating_course.php" method="post">
+							Rate The Course : 
+							<select name="rating" value="5">
+								<option>5</option>
+								<option>4</option>
+								<option>3</option>
+								<option>2</option>
+								<option>1</option>
+							</select>
+							<?php echo "<input type='hidden' name='course_id' value='" . $course_id . "'/>"; ?>
+							<input type="submit" value="Rate" />
+						</form>
 					</th></tr>
 				<?php
 					}
 				?>
 				<tr><th>
-					<textarea name="project_desciption" rows="3" cols="34" onfocus="if (this.value == 'Comment Here') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Comment Here';}">Comment Here</textarea>
-					<input type="submit" value="Submit" onclick="javascript:update_comment()" />
+					<form action="comment_course.php" method="post">
+						<textarea name="comment" rows="3" cols="34" onfocus="if (this.value == 'Comment Here') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Comment Here';}">Comment Here</textarea>
+						<?php echo "<input type='hidden' name='course_id' value='" . $course_id . "'/>"; ?>
+						<input type="submit" value="Submit" />
+					</form>
 				</th></tr>
 				<tr><td></td></tr>
 				<tr><td></td></tr>
@@ -344,8 +335,6 @@ $uid = '7';
 				</table>
 			</div>
 			
-			<!-- ***************** All Content Here **************** -->
-			
 			<div class="push"></div>
 		</div>
 			<!-- footer code -->
@@ -353,7 +342,6 @@ $uid = '7';
 			
 			<!-- disconnect the database connection-->
 			<?php include("db-disconnect.php"); ?>
-			<p id="courseId" style="visibility:hidden"><?php echo $course_id ?></p>
 	</body>
 </html>
 

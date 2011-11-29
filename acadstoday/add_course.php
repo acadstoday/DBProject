@@ -5,6 +5,8 @@ require('err.php');
 	<head>
 		<title>Add a Course</title>
 		<?php include("header-head.php"); ?>
+		<script type="text/javascript" src="js/easytab_rightpanel.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/easytab_rightpanel.css" />
 	</head>
 	<body>
 		<div class="wrapper">
@@ -12,9 +14,12 @@ require('err.php');
 			<?php include("db-connect.php"); ?>
 			<!-- header code -->
 			<?php include("header-body.php"); ?>
-			<div class="leftpad">
+			<div id="content">
+			<!-- left panel code -->
+			<?php include("left_panel.php"); ?>
+			<div id="center" class="leftpad">
 				<h2>Course Registration</h2>
-
+				
 				<form method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>" >
 					<table id="leftlist" border="0">
 						<tr><td>Search: <input type="text" size="12" maxlength="12" name="course" value=""/></td></tr>
@@ -23,7 +28,7 @@ require('err.php');
 						<tr><td class="submit"><input type="submit" name="submit" value="Search" /></td></tr>
 					</table>
 				</form>
-
+				
 				<?php
 				
 				$stmt = mysqli_stmt_init($con);
@@ -38,17 +43,17 @@ require('err.php');
 						$search_query = "%" . $_REQUEST['course'] . "%";
 					}
 					if(isset($_REQUEST['option1']) && isset($_REQUEST['option2']) && $_REQUEST['option1'] == "course_id" && $_REQUEST['option2'] == "course_name"){
-						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM Course WHERE course_name like ? OR course_id like ?") or die(mysqli_error());
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name, course_info FROM Course WHERE course_name like ? OR course_id like ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'ss', $search_query, $search_query);
 					}
 
 					elseif(isset($_REQUEST['option1']) && $_REQUEST['option1'] == "course_id"){
-						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM Course WHERE lower(course_id) like ?") or die(mysqli_error());
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name, course_info FROM Course WHERE lower(course_id) like ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'s', $search_query);
 					}
 
 					elseif(isset($_REQUEST['option2']) && $_REQUEST['option2'] == "course_name"){
-						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name FROM Course WHERE lower(course_name) like ?") or die(mysqli_error());
+						mysqli_stmt_prepare($stmt, "SELECT course_id, course_name, dept_name, course_info FROM Course WHERE lower(course_name) like ?") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'s', $search_query);
 					}
 					else{
@@ -59,34 +64,37 @@ require('err.php');
 					}
 					
 					if ($_REQUEST['course'] != "" && $help != ""){
-						echo "<hr />";
 						mysqli_stmt_execute($stmt);
 						mysqli_stmt_store_result($stmt);
 						if(mysqli_stmt_num_rows($stmt) == 0){
 							echo "No Courses found";
 						}
 						else{
-							mysqli_stmt_bind_result($stmt, $course_id, $course_name, $dept_name);
+							mysqli_stmt_bind_result($stmt, $id, $name, $dept, $info);
 							echo "<form method='POST' action='' >";
+							echo "<div id='list-result-add'>";
 							echo "<table id='list' border='0'>";
-							echo "<tr><th>Select</th><th>Course ID</th><th>Course Name</th><th>Department Name</th></tr>";
+							echo "<tr><th>Select</th><th>Course Details</th></tr>";
+							
 							while (mysqli_stmt_fetch($stmt)) {
-								
-								echo "<tr>";
-								echo "<td><input type='radio' name='group1' value='" . $course_id . "' ></td>";
-								echo "<td>" . $course_id . "</td>";
-								echo "<td>" . $course_name . "</td>";
-								echo "<td>" . $dept_name . "</td>";
-								echo "</tr>";
+								echo "<tr><td><input type='radio' name='group1' value='" . $course_id . "' ></td>";
+								echo "<td><div class='teachbox'><p><a href='course_page.php?course_id=" . $id . "'><b>" . $id . "</b></a> : ";
+								echo $name . "</p>";
+								echo "<p class='smalltext'><i>Info</i> : " . $info . "</p></div></td></tr>";
+
 							}
-							echo "<tr><td class='submit' colspan='4'><input type='submit' name='submit' value='Register' /></td></tr>";
 							echo "</table>";
+							echo "</div>";
+							echo "<br /><input type='submit' name='submit' value='Register' />";
 							echo "</form>";
 						}
 					}
 					mysqli_stmt_close($stmt);
 				}
 				?>
+			</div>
+			<!-- right panel code -->
+			<?php include("right_panel2.php"); ?>
 			</div>
 			<div class="push"></div>
 		</div>

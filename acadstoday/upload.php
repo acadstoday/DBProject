@@ -18,8 +18,9 @@ $votes //number of people who have rated
 
 *$upload_rating_flag [flag]
 
+$upload_id = $_GET['upload_id'];
 */
-
+$upload_id = '4';
 ?>
 
 
@@ -28,10 +29,6 @@ $votes //number of people who have rated
     <head>
         <title>Title</title>
         <?php include("header-head.php"); ?>
-        <script type="text/javascript" src="js/tabber.js"></script>
-        <!-- <script type="text/javascript" src="js/tabber-minimized.js"></script> -->
-        <link rel="stylesheet" type="text/css" href="css/tabber.css" />
-        <!-- this css is for rating stars display -->
         <style type="text/css">
         <!--
         .restaurant-stars { display:block; width:250px; height:47px; background:url('images/blankStar.png') no-repeat; }
@@ -57,24 +54,22 @@ $votes //number of people who have rated
            
             <?php
                 $stmt = mysqli_stmt_init($con);
-               
-                $upload_id = $_GET['upload_id'];
-
-                mysqli_stmt_prepare($stmt, "SELECT upload_id, format, type, time_stamp, link , user_id FROM Upload NATURAL JOIN Uploader WHERE upload_id = ?") or die(mysqli_error());
-                mysqli_stmt_bind_param($stmt,'s', $upload_id);
+                
+                mysqli_stmt_prepare($stmt, "SELECT upload_title, upload_info, format, type, time_stamp, link , user_id FROM Upload WHERE upload_id = ?") or die(mysqli_error());
+                mysqli_stmt_bind_param($stmt,'i', $upload_id);
                 mysqli_stmt_execute($stmt);
-                mysqli_stmt_bind_result($stmt, $upload_id, $upload_format, $upload_type, $upload_date, $upload_link , $userid);
+                mysqli_stmt_bind_result($stmt, $upload_title, $upload_info, $upload_format, $upload_type, $upload_date, $upload_link , $user_id);
                 while (mysqli_stmt_fetch($stmt)) {}
 
                 mysqli_stmt_prepare($stmt, "SELECT count(user_id) FROM Upload_Rating WHERE upload_id = ?") or die(mysqli_error());
-                mysqli_stmt_bind_param($stmt,'s', $upload_id);
+                mysqli_stmt_bind_param($stmt,'i', $upload_id);
                 mysqli_stmt_execute($stmt);
                 mysqli_stmt_bind_result($stmt, $votes);
                 while (mysqli_stmt_fetch($stmt)) {}
 
                 if ($votes != 0){
                     mysqli_stmt_prepare($stmt, "SELECT avg(rating) FROM Upload_Rating WHERE upload_id = ?") or die(mysqli_error());
-                    mysqli_stmt_bind_param($stmt,'s', $upload_id);
+                    mysqli_stmt_bind_param($stmt,'i', $upload_id);
                     mysqli_stmt_execute($stmt);
                     mysqli_stmt_bind_result($stmt, $upload_rating);
                     while (mysqli_stmt_fetch($stmt)) {}
@@ -88,10 +83,11 @@ $votes //number of people who have rated
             <p id="uploadId" style="visibility:hidden"><?php echo $upload_id ?></p>
             <?php echo "<h1>$upload_id : $upload_title</h1>"; ?>
             <?php echo "<h2>$upload_type</h2>"; ?>
+            <?php echo "<h2>$upload_format</h2>"; ?>
             <?php echo "<h2>$upload_link</h2>"; ?>
             <?php echo "<p>$upload_info</p>"; ?>
             <?php echo "<p>$upload_date</p>"; ?>
-            <?php echo "<p>$userid</p>"; ?>
+            <?php echo "<p>$user_id</p>"; ?>
            
             <div class="restaurant-stars">
                 <div class="restaurant-stars-rating" title="rating" style="display:block; width:<?php echo $upload_rating*50 ?>px; height:47px; background:url('images/colorStar.png') no-repeat;">             
@@ -104,23 +100,9 @@ $votes //number of people who have rated
            
             <!-- ***************** All Content Here **************** -->
             <div id="center">
-                <h3>PNA</h3>
-                <div class="tabber">
-                    <div class="tabbertab" title="Comments">
-                        <p>Tab 1 content.</p>
-                    </div>
-                   
-                    <div class="tabbertab" title="Followers(<?php echo $num_of_followers?>)">
-                        <p>Tab 3 content.</p>
-                    </div>
-                </div>
             </div>
             </div>
-            <div name="right"><br/><br/><br/><br/><br/><br/>
-                <center>
-                <!-- TAKEN -->
-                <!-- FOLLOW -->
-                <!-- RATING -->
+            <div name="right">
                 <?php
                 mysqli_stmt_prepare($stmt, "SELECT rating FROM Upload_Rating WHERE upload_id = ? AND user_id = ?") or die(mysqli_error());
                 $userid = 12345;//$_SESSION['user_id']);
@@ -140,7 +122,6 @@ $votes //number of people who have rated
                         echo "<p id=\"rating_display\">Your rating = $upload_rating_flag</p>";
                 }
                 ?>
-                </center>
             </div>
            
                        

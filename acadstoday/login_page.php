@@ -5,9 +5,9 @@ session_start();
 require('err.php');
 include("db-connect.php");
 
-
+/*
 if(isset($_POST['user_id']))
-{
+{*/
 	$user = $_POST['user_id'];
 	$password = $_POST['pwd'];
 	if($user == '') {
@@ -31,10 +31,7 @@ if(isset($_POST['user_id']))
 		err_chk('login.php');
 	}
 	else{
-		/* bind result variables */
 		mysqli_stmt_bind_result($stmt, $pwd);
-		/* fetch value */
-		echo "<ui>";
 		while ( mysqli_stmt_fetch($stmt) ) {
 			$db_pwd = $pwd;
 		}
@@ -52,5 +49,6 @@ if(isset($_POST['user_id']))
 	mysqli_stmt_close($stmt);
 	
 	include("db-disconnect.php");
-}
+//}
+header("location:login.php");
 ?>

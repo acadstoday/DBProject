@@ -7,13 +7,13 @@ You can use this Script for private and commercial Projects, but just leave the 
 
 //EASY TABS 1.2 - MENU SETTINGS
 //Set the id names of your tablinks (without a number at the end)
-var tablink_idname = new Array("tablink","anotherlink")
+var tablink_idname = new Array("anotherlink")
 //Set the id names of your tabcontentareas (without a number at the end)
-var tabcontent_idname = new Array("tabcontent","anothercontent") 
+var tabcontent_idname = new Array("anothercontent") 
 //Set the number of your tabs in each menu
-var tabcount = new Array("4","3")
+var tabcount = new Array("3")
 //Set the Tabs wich should load at start (In this Example:Menu 1 -> Tab 2 visible on load, Menu 2 -> Tab 5 visible on load , Menu 3 -> Tab 1 visible on load)
-var loadtabs = new Array("1","1")  
+var loadtabs = new Array("1")  
 //Set the Number of the Menu which should autochange (if you dont't want to have a change menu set it to 0)
 var autochangemenu = 0;
 //the speed in seconds when the tabs should change

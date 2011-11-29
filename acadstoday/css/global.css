@@ -11,9 +11,14 @@
 }*/
 
 
-a:hover, a:visited, a:link, a:active {
+a:visited, a:link, a:active {
 	text-decoration:none;
 	color:#0000FF;
+}
+
+a:hover{
+	color:#000000;
+	text-decoration:underline;
 }
 
 
@@ -49,6 +54,10 @@ html, body {
 }
 #center {
 	width: 680px;
+	float: left;
+}
+#center.leftpad {
+	width: 650px;
 	float: left;
 }
 
@@ -106,10 +115,10 @@ html, body {
 
 /* main forms on add pages (add project, add course etc.) */
 .leftpad {
-	padding-left: 2em;
+	padding-left: 1em;
 }
 
-/*for lists of courses, instructors, users etc. */
+/*for lists of results in add course */
 #list th
 {
 	text-align:center;
@@ -121,17 +130,21 @@ html, body {
 #list td
 {
 	background-color:#b0c4de;
-	text-align:center;
+	text-align:left;
 	padding:15px;
 }
 
-#list td.submit
+
+#list-result
 {
-	background-color:#FFFFFF;
-	text-align:left;
-	padding:15px;
-	padding-left:5px;
-	
+	max-height:485px;
+	overflow:auto;
+}
+
+#list-result-add
+{
+	max-height:275px;
+	overflow:auto;
 }
 
 
@@ -142,6 +155,15 @@ html, body {
 }
 
 #leftlist th
+{
+	text-align:left;
+	background-color:#b0c4de;
+	padding:5px;
+	padding-left:10px;
+	margin-bottom:2em;
+}
+
+#leftlist th.home
 {
 	text-align:left;
 	background-color:#b0c4de;
@@ -204,22 +226,19 @@ html, body {
 
 .smalltext
 {
-	font-size:12px;
+	font-size:14px;
 }
 
-/* comments */
-.commentbox
+/* comments, teaches, projects */
+.commentbox, .teachbox, .projectbox
 {
 	background-color:#b0c4de;
 	margin:0 10px 10px 0;
-	padding:10px 10px 0.5px 15px;
+	padding:1px 10px 0.5px 15px;
 	
 }
 
-
-
-
-/* course page */
+/* course, inst pages */
 #page
 {
 	width:70%;
@@ -227,6 +246,7 @@ html, body {
 	padding-left: 2em;
 }
 
+/* for setting easytab at right place */
 #wall
 {
 	padding-top:4em;
@@ -282,4 +302,40 @@ html, body {
 	float:left;
 	padding:5px;
 	margin:5px;
+}
+
+/* upload comments */
+#upload-comment
+{
+	max-height:310px;
+	overflow:auto;
+}
+
+/* Project Page*/
+.project-leftpad
+{
+	padding-left:2em;
+}
+
+#project-content
+{
+	max-height:480px;
+	overflow:auto;
+}
+
+#project-content td
+{
+	padding:1em;
+}
+
+#project-content tr
+{
+	background-color:#b0c4de;
+}
+
+/* delete comment */
+.delete-comment
+{
+	float:right;
+	padding:10px;
 }
