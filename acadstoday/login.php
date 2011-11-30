@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('err.php');
+err_print(); 
 ?>
 <html>
 	<head>
@@ -31,7 +32,7 @@ require('err.php');
 									<td><input type="password" name="pwd" id="pwd" tabindex="2" /></td></tr>
 								<tr>
 									<td></td>
-									<td><br/><input value="Sign In" tabindex="3" type="submit" /></td></tr>
+									<td><br/><input value="Sign In" tabindex="3" type="submit" name="submit" /></td></tr>
 								<tr>
 									<td colspan="2"><br/>New User? Sign Up <a href="javascript:void" title="Sign Up" id="showform2" onclick="toggleForm1();">Here</a></td></tr>
 							</table>
@@ -51,7 +52,7 @@ require('err.php');
 									<td><input type="password" name="pwd1" id="pwd1" tabindex="3" /></td></tr>
 								<tr>
 									<td></td>
-									<td><br/><input value="Sign Up" tabindex="5" type="submit" /></td></tr>
+									<td><br/><input value="Sign Up" tabindex="5" type="submit" name="submit" /></td></tr>
 								<tr>
 									<td colspan="2"><br/>Already a member? Sign In <a href="javascript:void" title="Sign In" id="showform1" onclick="toggleForm2();">Here</a></td></tr>
 							</table>
@@ -59,7 +60,6 @@ require('err.php');
 					</div>
 				</div>
 				<div class="error">
-						<?php err_print(); ?>
 				</div>
 			</div>
 			<div class="push"></div>

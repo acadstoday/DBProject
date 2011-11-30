@@ -1,7 +1,12 @@
+<?php
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
+?>
+
 <?php 
 	$inst_id = $_GET['inst_id'];
-	/*$uid = $_SESSION['uid'];*/
-	$uid = '7';
 	$num_of_followers = 0;
 	$num_of_projects = 0;
 	$num_of_comments = 0;
@@ -106,20 +111,22 @@
 			?>
 			
 			<div id="page">
-				<?php
-					echo "<h2>" . $inst_name . "</h2>";
-					echo "<h3>" . $dept_name . "</h3>";
-					echo "<p>" . $inst_info . "</p>";
-				?>
-				
-				<div class="restaurant-stars">
-					<div class="restaurant-stars-rating" title="rating" style="display:block; width:<?php echo $inst_rating*50 ?>px; height:47px; background:url('images/colorStar.png') no-repeat;">              
-						&nbsp;
-					</div><br/>
-					<center><?php echo $inst_rating . " (" . $votes . " Votes)" ?></center>
+				<div id="top-part">
+					<?php echo "<h2>" . $inst_name . "</h2>"; ?>
+					<div class="restaurant-stars">
+						<div class="restaurant-stars-rating" title="rating" style="display:block; width:<?php echo $inst_rating*50 ?>px; height:47px; background:url('images/colorStar.png') no-repeat;">
+						</div><br/>
+						<center><?php echo $inst_rating . " (" . $votes . " Votes)" ?></center>
+					</div>
+					<?php
+						echo "<br/><br/><b>dept</b> : " . $dept_name;
+						echo "<p class='smalltext'><b>info</b> : " . $inst_info . "</p>";
+					?>
+					
+					
 				</div>
 				
-				<div id="wall">
+				<div>
 					<div id="easytab1" class="menu">
 						<ul>
 							<li><a href="#" onmouseover="easytabs('1', '1');" onfocus="easytabs('1', '1');"  onclick="easytabs('1', '1');" title="" id="tablink1">Comments(<?php echo $num_of_comments ?>)</a></li>
@@ -130,7 +137,7 @@
 					</div>
 					<div id="tabcontent1">
 						<?php
-							mysqli_stmt_prepare($stmt, "SELECT user_id, user_name, comment, time_stamp FROM Instr_Comments NATURAL JOIN User WHERE inst_id = ? ORDER BY time_stamp DESC") or die(mysqli_error());
+							mysqli_stmt_prepare($stmt, "SELECT user_id, user_name, comment_id, comment, time_stamp FROM Instr_Comments NATURAL JOIN User WHERE inst_id = ? ORDER BY time_stamp DESC") or die(mysqli_error());
 							mysqli_stmt_bind_param($stmt,'s', $inst_id);
 							mysqli_stmt_execute($stmt);
 							mysqli_stmt_store_result($stmt);
@@ -138,9 +145,13 @@
 								echo "Currently No Comments to Show";
 							}
 							else{
-								mysqli_stmt_bind_result($stmt, $user_id, $user_name, $comment, $timestamp);
+								mysqli_stmt_bind_result($stmt, $user_id, $user_name, $comment_id, $comment, $timestamp);
 								while ( mysqli_stmt_fetch($stmt) ) {
-									echo "<div class='commentbox'><p><a href='user_page.php?user_id=" . $user_id . "'> " . $user_name . "</a> wrote:</br>";
+									echo "<div class='commentbox'>";
+									if ($user_id == $uid){
+										echo "<a href='delete_comment.php?type=instructor&id=" . $inst_id . "&comment_id=" . $comment_id . "'><img src='images/close_x.png' class='delete-comment' alt='delete' /></a>";
+									}
+									echo "<p><a href='user_page.php?user_id=" . $user_id . "'> " . $user_name . "</a> wrote:</br>";
 									echo "" . $comment . "</p>";
 									echo "<p class='smalltext'><i>on</i> " . $timestamp . "</p>";
 									echo "</div>";
@@ -150,7 +161,7 @@
 					</div>
 					<div id="tabcontent2">
 						<?php
-							mysqli_stmt_prepare($stmt, "SELECT topic, project_info FROM Project WHERE inst_id = ? ") or die(mysqli_error());
+							mysqli_stmt_prepare($stmt, "SELECT project_id, topic, project_info FROM Project WHERE inst_id = ? ") or die(mysqli_error());
 							mysqli_stmt_bind_param($stmt,'s', $inst_id);
 							mysqli_stmt_execute($stmt);
 							mysqli_stmt_store_result($stmt);
@@ -158,9 +169,9 @@
 								echo "Currently No Projects to Show";
 							}
 							else{
-								mysqli_stmt_bind_result($stmt, $topic, $info);
+								mysqli_stmt_bind_result($stmt, $id, $topic, $info);
 								while ( mysqli_stmt_fetch($stmt) ) {
-									echo "<div class='projectbox'><p><b>Topic</b> : " . $topic . "</br>";
+									echo "<div class='projectbox'><p><b>Topic</b> : <a href='project_page.php?project_id=" . $id . "'>" . $topic . "</a></br>";
 									echo "<b>Info</b> : " . $info . "</p></div>";
 								}
 							}

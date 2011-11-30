@@ -1,7 +1,12 @@
+<?php
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
+?>
+
 <?php 
 $course_id = $_GET['course_id'];
-/*$uid = $_SESSION['uid'];*/
-$uid = '7';
 $num_of_followers = 0;
 $num_of_projects = 0;
 $num_of_uploads = 0;
@@ -66,13 +71,24 @@ $num_of_comments = 0;
 					$num_of_followers += 1;
 				}
 				
+				mysqli_stmt_prepare($stmt, "SELECT user_id FROM Takes WHERE course_id = ?") or die(mysqli_error());
+				mysqli_stmt_bind_param($stmt,'s', $course_id);
+				mysqli_stmt_execute($stmt);
+				mysqli_stmt_bind_result($stmt, $user_id);
+				$num_of_students = 0;
+				$course_students = array();
+				while (mysqli_stmt_fetch($stmt)) {
+					$course_students[] = $user_id;
+					$num_of_students += 1;
+				}
+				
 				mysqli_stmt_prepare($stmt, "SELECT count(comment) FROM Course_Comments WHERE course_id = ?") or die(mysqli_error());
 				mysqli_stmt_bind_param($stmt,'s', $course_id);
 				mysqli_stmt_execute($stmt);
 				mysqli_stmt_bind_result($stmt, $num_of_comments);
 				while (mysqli_stmt_fetch($stmt)) {}
 				
-				mysqli_stmt_prepare($stmt, "SELECT count(DISTINCT project_id) FROM Project WHERE course_id = ?") or die(mysqli_error());
+				mysqli_stmt_prepare($stmt, "SELECT count(project_id) FROM Project WHERE course_id = ?") or die(mysqli_error());
 				mysqli_stmt_bind_param($stmt,'s', $course_id);
 				mysqli_stmt_execute($stmt);
 				mysqli_stmt_bind_result($stmt, $num_of_projects);
@@ -106,6 +122,7 @@ $num_of_comments = 0;
 					$course_follow_flag = 1;
 				}
 				
+				
 				mysqli_stmt_prepare($stmt, "SELECT rating FROM Course_Rating WHERE course_id = ? AND user_id = ?") or die(mysqli_error());
 				mysqli_stmt_bind_param($stmt,'si', $course_id, $uid);
 				mysqli_stmt_execute($stmt);
@@ -115,23 +132,29 @@ $num_of_comments = 0;
 			?>
 			
 			<div id="page">
-				<?php echo "<h2>" . $course_id . " : " . $course_name . "</h2>"; ?>
-				<?php echo "<h3>" . $dept_name . "</h3>"; ?>
-				<?php echo "<p>" . $course_info . "</p>"; ?>
-				<div class="restaurant-stars">
-					<div class="restaurant-stars-rating" title="rating" style="display:block; width:<?php echo $course_rating*50 ?>px; height:47px; background:url('images/colorStar.png') no-repeat;">              
-						&nbsp;
-					</div><br/>
-					<center><?php echo $course_rating . " (" . $votes . " Votes)" ?></center>
+				<div id="top-part">
+					<?php echo "<h2>" . $course_id . " : " . $course_name . "</h2>"; ?>
+					<div class="restaurant-stars">
+						<div class="restaurant-stars-rating" title="rating" style="display:block; width:<?php echo $course_rating*50 ?>px; height:47px; background:url('images/colorStar.png') no-repeat;">
+						</div><br/>
+						<center><?php echo $course_rating . " (" . $votes . " Votes)" ?></center>
+					</div>
+					<?php
+						echo "<br/><br/><b>dept</b> : " . $dept_name;
+						echo "<p class='smalltext'><b>info</b> : " . $course_info . "</p>";
+					?>
+					
+					
 				</div>
 				
-				<div id="wall">
+				<div>
 					<div id="easytab1" class="menu">
 						<ul>
 							<li><a href="#" onmouseover="easytabs('1', '1');" onfocus="easytabs('1', '1');"  onclick="easytabs('1', '1');" title="" id="tablink1">Comments(<?php echo $num_of_comments ?>)</a></li>
 							<li><a href="#" onmouseover="easytabs('1', '2');" onfocus="easytabs('1', '2');"  onclick="easytabs('1', '2');" title="" id="tablink2">Uploads(<?php echo $num_of_uploads ?>)</a></li>
 							<li><a href="#" onmouseover="easytabs('1', '3');" onfocus="easytabs('1', '3');"  onclick="easytabs('1', '3');" title="" id="tablink3">Projects(<?php echo $num_of_projects ?>)</a></li>
 							<li><a href="#" onmouseover="easytabs('1', '4');" onfocus="easytabs('1', '4');"  onclick="easytabs('1', '4');" title="" id="tablink4">Followers(<?php echo $num_of_followers ?>)</a></li>
+							<li><a href="#" onmouseover="easytabs('1', '5');" onfocus="easytabs('1', '5');"  onclick="easytabs('1', '5');" title="" id="tablink5">Students(<?php echo $num_of_students ?>)</a></li>
 						</ul>
 					</div>
 					<div id="tabcontent1">
@@ -161,7 +184,7 @@ $num_of_comments = 0;
 					</div>
 					<div id="tabcontent2">
 						<?php
-							mysqli_stmt_prepare($stmt, "SELECT upload_title FROM Upload WHERE course_id = ?") or die(mysqli_error());
+							mysqli_stmt_prepare($stmt, "SELECT upload_id, upload_title, upload_info, format, type, user_id, user_name FROM Upload NATURAL JOIN User WHERE course_id = ?") or die(mysqli_error());
 							mysqli_stmt_bind_param($stmt,'s', $course_id);
 							mysqli_stmt_execute($stmt);
 							mysqli_stmt_store_result($stmt);
@@ -169,18 +192,22 @@ $num_of_comments = 0;
 								echo "Currently No uploads to Show";
 							}
 							else{
-								mysqli_stmt_bind_result($stmt, $title, $timestamp);
-								while ( mysqli_stmt_fetch($stmt) ) {
-									echo "<div><p>Title: " . $title . "</p>";
-									echo "<p>time : " . $timestamp . "</p>";
-									echo "</div>";
+								mysqli_stmt_bind_result($stmt, $upload_id, $upload_title, $upload_info, $format, $type, $user_id, $user_name);
+								echo "<div>";
+								while (mysqli_stmt_fetch($stmt)) {
+									echo "<div class='follow_block'><div class='follow_text'>";
+									echo "<a href='upload_page.php?upload_id=" . $upload_id . "'><b>" . $upload_title . "</b></a><br/>";
+									echo "<p class='smalltext'><b>Info</b> : " . $upload_info . "</br></br>";
+									echo "<b>Uploaded by</b> : <a href='user_page.php?user_id=" . $user_id . "'>" . $user_name;
+									echo "</a> | <b>Type</b> : " . $type . " | <b>Format</b> : " . $format ."</p></div></div>";
 								}
+								echo "</div>";
 							}
 						?>
 					</div>
 					<div id="tabcontent3">
 						<?php
-							mysqli_stmt_prepare($stmt, "SELECT topic, project_info FROM Project WHERE course_id = ? ") or die(mysqli_error());
+							mysqli_stmt_prepare($stmt, "SELECT project_id, topic, project_info FROM Project WHERE course_id = ? ") or die(mysqli_error());
 							mysqli_stmt_bind_param($stmt,'s', $course_id);
 							mysqli_stmt_execute($stmt);
 							mysqli_stmt_store_result($stmt);
@@ -188,9 +215,9 @@ $num_of_comments = 0;
 								echo "Currently No Projects to Show";
 							}
 							else{
-								mysqli_stmt_bind_result($stmt, $topic, $info);
+								mysqli_stmt_bind_result($stmt, $id, $topic, $info);
 								while ( mysqli_stmt_fetch($stmt) ) {
-									echo "<div class='projectbox'><p><b>Topic</b> : " . $topic . "</br>";
+									echo "<div class='projectbox'><p><b>Topic</b> : <a href='project_page.php?project_id=" . $id . "'>" . $topic . "</a></br>";
 									echo "<b>Info</b> : " . $info . "</p></div>";
 								}
 							}
@@ -218,6 +245,37 @@ $num_of_comments = 0;
 											echo "<img src='user/" . $follower_id . "/" . $pic . "' alt='pic missing' width='75px' />";
 											echo "</div><div class='follow_text'>";
 											echo "<a href='user_page.php?user_id=" . $follower_id . "'>" . $user . "</a><br/>";
+											echo "<p class='smalltext'>Dept : " . $dept . "</br>";
+											echo "Program : " . $prog . "</p></div></div>";
+										}
+										echo "</div>";
+									}
+								}
+							}
+						?>
+					</div>
+					<div id="tabcontent5">
+						<?php
+							if ($num_of_students== 0){
+								echo "Currently No Students to Show";
+							}
+							else{
+								foreach ($course_students as $student_id) {
+									mysqli_stmt_prepare($stmt, "SELECT user_name, dept_name, prog_name, profile_pic FROM User WHERE user_id = ?") or die(mysqli_error());
+									mysqli_stmt_bind_param($stmt,'i', $student_id);
+									mysqli_stmt_execute($stmt);
+									mysqli_stmt_store_result($stmt);
+									if(mysqli_stmt_num_rows($stmt) == 0){
+										echo "<div class='follow_block'>Error in retrieving the Student details</div>";
+									}
+									else{
+										mysqli_stmt_bind_result($stmt, $user, $dept, $prog, $pic);
+										echo "<div>";
+										while (mysqli_stmt_fetch($stmt)) {
+											echo "<div class='follow_block'><div class='follow_pic'>";
+											echo "<img src='user/" . $student_id . "/" . $pic . "' alt='pic missing' width='75px' />";
+											echo "</div><div class='follow_text'>";
+											echo "<a href='user_page.php?user_id=" . $student_id . "'>" . $user . "</a><br/>";
 											echo "<p class='smalltext'>Dept : " . $dept . "</br>";
 											echo "Program : " . $prog . "</p></div></div>";
 										}

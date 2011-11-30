@@ -1,7 +1,12 @@
 <?php
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
+?>
+
+<?php
 $project_id = $_GET['project_id'];
-/*$uid = $_SESSION['uid'];*/
-$uid = '7';
 ?>
 
 
@@ -18,7 +23,6 @@ $uid = '7';
 			<?php include("header-body.php"); ?>
 			<?php
                 $stmt = mysqli_stmt_init($con);
-                
                 mysqli_stmt_prepare($stmt, "SELECT user_id, user_name, inst_id, inst_name, course_id, topic, project_info, start_date, start_month, start_year, end_date, end_month, end_year FROM Project NATURAL JOIN User NATURAL JOIN Instructor WHERE project_id = ?") or die(mysqli_error());
                 mysqli_stmt_bind_param($stmt,'i', $project_id);
                 mysqli_stmt_execute($stmt);
@@ -26,7 +30,7 @@ $uid = '7';
                 while (mysqli_stmt_fetch($stmt)) {}
 			?>
 			<div class="project-leftpad">
-				<h2>Project : <?php echo $topic ?></h2>
+				<h2>Project : <?php echo $topic; ?></h2>
 				<div id="project-content">
 					<?php echo "<p><b>Info</b> : " . $project_info . "</p>"; ?>
 					<table>

@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
+?>
+
 <html>
 	<head>
 		<title>News</title>
@@ -27,9 +34,7 @@
 						echo "Currently No News to Show";
 					}
 					else{
-						/* bind result variables */
 						mysqli_stmt_bind_result($stmt, $user_id, $user_name, $news, $timestamp);
-						/* fetch value */
 						while ( mysqli_stmt_fetch($stmt) ) {
 							echo "<div class='newsitem'><div class='news'>" . $news . "</div><div>";/*
 							echo "<p class='smalltext'><i>tags</i> " . $tags . "<br />";*/

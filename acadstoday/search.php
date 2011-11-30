@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
+?>
 <html>
 	<head>
 		<title>Search Results of '<?php echo $_GET["search_text"]; ?>'</title>
@@ -110,6 +116,7 @@
 								echo "<a href='upload_page.php?upload_id=" . $upload_id . "'><b>" . $upload_title . "</b></a><br/>";
 								echo "<p class='smalltext'><b>Info</b> : " . $upload_info . "</br></br>";
 								echo "<b>Uploaded by</b> : <a href='user_page.php?user_id=" . $user_id . "'>" . $user_name;
+								echo "</a> | <b>in</b> : <a href='course_page.php?course_id=" . $course_id . "'>" . $course_id;
 								echo "</a> | <b>Type</b> : " . $type . " | <b>Format</b> : " . $format ."</p></div></div>";
 							}
 							echo "</div>";

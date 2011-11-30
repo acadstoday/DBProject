@@ -1,7 +1,7 @@
 <div class ="footer" id="footer">
 	<div id="copyright" style="float:left;">
 		<!-- automatically inserts the current year after copyright symbol -->
-		<p> &#169; <?php echo date('Y'); ?>, <a href="login.php">AcadsToday</a> </p>
+		<p> &#169; <?php echo date('Y'); ?>, <a href="about_us.php">Team</a> AcadsToday</p>
 	</div>
 	<div id="footerLinks" style="float:right;">
 		<ul>

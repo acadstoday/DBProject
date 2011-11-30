@@ -1,6 +1,10 @@
 <?php
-	/* $uid = $_SESSION['uid']*/
-	$uid = '7';
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
+?>
+<?php
 	$inst_id = $_GET['inst_id'];
 	$action = $_GET['action'];
 	include("db-connect.php");

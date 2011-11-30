@@ -1,7 +1,9 @@
 <!-- redirect to this page after a user successfully logs in -->
 <?php
-//session_start();
-//if(!isset($_SESSION['uid'])) header("location:login.php");
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
 ?>
 <html>
 	<head>
@@ -38,13 +40,6 @@
 						</ul>
 					</div>
 					<div id="tabcontent1">
-						<?php
-						$test = 1;
-						while ($test < 60){
-							echo "user " . $test . "<br />";
-							$test += 1;
-						}
-						?>
 					</div>
 					<div id="tabcontent2">
 					</div>

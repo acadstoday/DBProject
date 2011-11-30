@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
+?>
+
 <html>
 	<head>
 		<title>Add a Project</title>

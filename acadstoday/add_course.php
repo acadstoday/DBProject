@@ -1,4 +1,11 @@
 <?php
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
+?>
+
+<?php
 require('err.php');
 ?>
 <html>
@@ -71,13 +78,13 @@ require('err.php');
 						}
 						else{
 							mysqli_stmt_bind_result($stmt, $id, $name, $dept, $info);
-							echo "<form method='POST' action='' >";
+							echo "<form method='POST' action='process_add_course.php' >";
 							echo "<div id='list-result-add'>";
 							echo "<table id='list' border='0'>";
 							echo "<tr><th>Select</th><th>Course Details</th></tr>";
 							
 							while (mysqli_stmt_fetch($stmt)) {
-								echo "<tr><td><input type='radio' name='group1' value='" . $course_id . "' ></td>";
+								echo "<tr><td><input type='radio' name='course_id' value='" . $id . "' ></td>";
 								echo "<td><div class='teachbox'><p><a href='course_page.php?course_id=" . $id . "'><b>" . $id . "</b></a> : ";
 								echo $name . "</p>";
 								echo "<p class='smalltext'><i>Info</i> : " . $info . "</p></div></td></tr>";

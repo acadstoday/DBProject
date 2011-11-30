@@ -1,13 +1,16 @@
 <?php
-//User is forwarded to this page after he signups for the first time [update database]
-//It is also used to change other details later by the user [update database]
-//**these attribs have already been stored
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
 ?>
 
 <html>
 	<head>
 		<title>Edit Profile</title>
 		<?php include("header-head.php"); ?>
+		<script type="text/javascript" src="js/easytab_rightpanel.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/easytab_rightpanel.css" />
 	</head>
 
 	<body>
@@ -16,8 +19,13 @@
 			<?php include("db-connect.php"); ?>
 			<!-- header code -->
 			<?php include("header-body.php"); ?>
-			<div class="leftpad" id="list-result">
-			<h2>Edit Profile</h2>
+			<div id="content">
+			<!-- left panel code -->
+			<?php include("left_panel.php"); ?>
+			
+			<div id="center" class="leftpad">
+				<h2>Edit Profile</h2>
+				<div id="list-result">
 				<form name="edit_profile_form" action="edit_profile.php" method="post">
 					<table id="protable">
 						<tr><td>Username: </td></tr>
@@ -37,6 +45,10 @@
 						<tr><td><input type="submit" value="Save"></td><td></td></tr>
 					</table>
 				</form>
+				</div>
+			</div>
+			<!-- right panel code -->
+			<?php include("right_panel2.php"); ?>
 			</div>
 			<div class="push"></div>
 		</div>

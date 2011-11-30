@@ -11,7 +11,7 @@ var tablink_idname = new Array("tablink", "anotherlink")
 //Set the id names of your tabcontentareas (without a number at the end)
 var tabcontent_idname = new Array("tabcontent", "anothercontent") 
 //Set the number of your tabs in each menu
-var tabcount = new Array("4", "2")
+var tabcount = new Array("5", "2")
 //Set the Tabs wich should load at start (In this Example:Menu 1 -> Tab 2 visible on load, Menu 2 -> Tab 5 visible on load , Menu 3 -> Tab 1 visible on load)
 var loadtabs = new Array("1", "1")  
 //Set the Number of the Menu which should autochange (if you dont't want to have a change menu set it to 0)

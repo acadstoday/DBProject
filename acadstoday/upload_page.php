@@ -1,7 +1,11 @@
 <?php
+session_start();
+if(!(isset($_SESSION['uid']))) {header("location:login.php");}
+$uid = $_SESSION['uid'];
+
+?>
+<?php
 $upload_id = $_GET['upload_id'];
-/*$uid = $_SESSION['uid'];*/
-$uid = '7';
 $num_of_comments = 0;
 ?>
 
@@ -26,10 +30,10 @@ $num_of_comments = 0;
 			<?php
                 $stmt = mysqli_stmt_init($con);
                 
-                mysqli_stmt_prepare($stmt, "SELECT upload_title, upload_info, format, type, time_stamp, link , user_id, user_name, tot_downloads FROM Upload NATURAL JOIN User WHERE upload_id = ?") or die(mysqli_error());
+                mysqli_stmt_prepare($stmt, "SELECT upload_title, upload_info, format, type, time_stamp, link , user_id, user_name, course_id, tot_downloads FROM Upload NATURAL JOIN User WHERE upload_id = ?") or die(mysqli_error());
                 mysqli_stmt_bind_param($stmt,'i', $upload_id);
                 mysqli_stmt_execute($stmt);
-                mysqli_stmt_bind_result($stmt, $upload_title, $upload_info, $upload_format, $upload_type, $upload_date, $upload_link , $user_id, $user_name,  $tot_downloads);
+                mysqli_stmt_bind_result($stmt, $upload_title, $upload_info, $upload_format, $upload_type, $upload_date, $upload_link , $user_id, $user_name, $course_id,  $tot_downloads);
                 while (mysqli_stmt_fetch($stmt)) {}
 
                 mysqli_stmt_prepare($stmt, "SELECT count(user_id) FROM Upload_Rating WHERE upload_id = ?") or die(mysqli_error());
@@ -64,25 +68,29 @@ $num_of_comments = 0;
 				while (mysqli_stmt_fetch($stmt)) {}
             ?>
 			<div id="page">
-				<?php 
-					echo "<h2>" . $upload_title . "</h2>";
-					echo "<b>type</b> : " . $upload_type . " | ";
-					echo "<b>format</b> : " . $upload_format . " | ";
-					echo "<b>uploaded by</b> : <a href='user_page.php?user_id=" . $user_id . "'>" . $user_name . "</a> | ";
-					echo "<b>on</b> : " . $upload_date;
-					echo "<p class='smalltext'><b>info</b>" . $upload_info . "</p>";
-				?>
-				
-				<div class="restaurant-stars">
-					<div class="restaurant-stars-rating" title="rating" style="display:block; width:<?php echo $upload_rating*50 ?>px; height:47px; background:url('images/colorStar.png') no-repeat;">             
-						&nbsp;
+				<div id="top-part">
+					<?php echo "<h2>" . $upload_title . "</h2>"; ?>
+					<div class="restaurant-stars">
+						<div class="restaurant-stars-rating" title="rating" style="display:block; width:<?php echo $upload_rating*50 ?>px; height:47px; background:url('images/colorStar.png') no-repeat;">             
+							&nbsp;
+						</div>
+						<center><?php echo $upload_rating." (".$votes." Votes)" ?></center>
 					</div>
-					<center><?php echo $upload_rating." (".$votes." Votes)" ?></center>
+					<?php
+						echo "<br/><b>type</b> : " . $upload_type . " | ";
+						echo "<b>format</b> : " . $upload_format . " | ";
+						echo "<b>uploaded by</b> : <a href='user_page.php?user_id=" . $user_id . "'>" . $user_name . "</a> | ";
+						echo "<b>on</b> : " . $upload_date . " | ";
+						echo "<b>in</b> : <a href='course_page.php?course_id=" . $course_id . "'>" . $course_id . "</a>";
+						echo "<p class='smalltext'><b>info</b>" . $upload_info . "</p>";
+					?>
+					
+					
 				</div>
 					<h3>Comments</h3>
 					<div id="upload-comment">
 					<?php
-						mysqli_stmt_prepare($stmt, "SELECT user_id, user_name, comment, time_stamp FROM Upload_Comments NATURAL JOIN User WHERE upload_id = ? ORDER BY time_stamp DESC") or die(mysqli_error());
+						mysqli_stmt_prepare($stmt, "SELECT user_id, user_name, comment_id, comment, time_stamp FROM Upload_Comments NATURAL JOIN User WHERE upload_id = ? ORDER BY time_stamp DESC") or die(mysqli_error());
 						mysqli_stmt_bind_param($stmt,'i', $upload_id);
 						mysqli_stmt_execute($stmt);
 						mysqli_stmt_store_result($stmt);
@@ -90,9 +98,13 @@ $num_of_comments = 0;
 							echo "Currently No Comments to Show";
 						}
 						else{
-							mysqli_stmt_bind_result($stmt, $user_id, $user_name, $comment, $timestamp);
+							mysqli_stmt_bind_result($stmt, $user_id, $user_name, $comment_id, $comment, $timestamp);
 							while ( mysqli_stmt_fetch($stmt) ) {
-								echo "<div class='commentbox'><p><a href='user_page.php?user_id=" . $user_id . "'> " . $user_name . "</a> wrote:</br>";
+								echo "<div class='commentbox'>";
+								if ($user_id == $uid){
+									echo "<a href='delete_comment.php?type=upload&id=" . $upload_id . "&comment_id=" . $comment_id . "'><img src='images/close_x.png' class='delete-comment' alt='delete' /></a>";
+								}
+								echo "<p><a href='user_page.php?user_id=" . $user_id . "'> " . $user_name . "</a> wrote:</br>";
 								echo "" . $comment . "</p>";
 								echo "<p class='smalltext'><i>on</i> " . $timestamp . "</p>";
 								echo "</div>";

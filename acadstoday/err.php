@@ -21,7 +21,7 @@
 		{
 			echo '<ul class="err">';
 			foreach($_SESSION['ERR'] as $v)
-			echo '<li>'.$v.'</li>';
+			echo '<li><h1>'.$v.'</h1></li>';
 			echo '</ul>';
 			unset($_SESSION['ERR']);
 		}

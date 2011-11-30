@@ -1,8 +1,17 @@
+<?php
+session_start();
+
+?>
+
 <div id="bar">
 	<div id="logo">
 		<a href="home.php"><img src="images/logo.png" alt="AcadsToday"/></a>
 	</div>
 	<div id="container" >
+		<?php
+			if(isset($_SESSION['uid'])) {
+		?>
+		
 		<div id="loginContainer">
 			<a href="#" id="loginButton"><span>MyAccount</span><em></em></a>
 			<div style="clear:both"></div>
@@ -21,5 +30,12 @@
 				</form>
 			</div>
 		</div>
+		
+		<?php
+			}
+			else{}
+		?>
+		
+		
 	</div>
 </div>

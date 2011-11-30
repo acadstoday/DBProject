@@ -52,6 +52,12 @@ html, body {
 	width: 300px;
 	/*height: auto;*/
 }
+#rightpanel.user {
+	padding-top: 0.5em;
+	float: left;
+	width: 980px;
+	/*height: auto;*/
+}
 #center {
 	width: 680px;
 	float: left;
@@ -307,7 +313,7 @@ html, body {
 /* upload comments */
 #upload-comment
 {
-	max-height:310px;
+	max-height:250px;
 	overflow:auto;
 }
 
@@ -338,4 +344,12 @@ html, body {
 {
 	float:right;
 	padding:10px;
+}
+
+
+/* top part */
+#top-part
+{
+	height:230px;
+	overflow:auto;
 }
